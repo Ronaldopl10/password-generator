@@ -42,5 +42,5 @@ next-env.d.ts
 
 /generated/prisma
 
-# Documentación de desarrollo
-DEVELOPMENT.md
+# Documentación de desarrollo interna
+MDs/
