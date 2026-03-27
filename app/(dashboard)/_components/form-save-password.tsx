@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogClose,
@@ -33,13 +34,35 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreatePasswordAction } from "../_actions/create-password.action";
 import { toast } from "sonner";
 
+const PENDING_KEY = "pg_pending";
+const TTL_MS = 5 * 60 * 1000;
+
 interface Props {
   password: string;
   passwordConfig: PasswordConfig;
+  isAuthenticated: boolean;
+  autoOpen?: boolean;
+  onAutoOpenConsumed?: () => void;
 }
 
-export function FormSavePassword({ password, passwordConfig }: Props) {
+export function FormSavePassword({
+  password,
+  passwordConfig,
+  isAuthenticated,
+  autoOpen,
+  onAutoOpenConsumed,
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  // Abre el dialog automáticamente si el usuario volvió del login con una contraseña pendiente
+  useEffect(() => {
+    if (autoOpen && isAuthenticated && !isOpen) {
+      setIsOpen(true);
+      onAutoOpenConsumed?.();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoOpen, isAuthenticated]);
 
   const form = useForm<PasswordSchemaType>({
     resolver: zodResolver(passwordSchema),
@@ -70,11 +93,8 @@ export function FormSavePassword({ password, passwordConfig }: Props) {
       toast.success(`Password ${data.title} fue guardada con exito 🎉 😇 `);
 
       setIsOpen(false);
-
-      //TODO: revalidar la data
-      queryClient.invalidateQueries({
-        queryKey: ["password"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["password"] });
+      queryClient.invalidateQueries({ queryKey: ["subscription"] });
     },
     onError(error) {
       toast.error(`Error: ${error.message}`);
@@ -86,6 +106,27 @@ export function FormSavePassword({ password, passwordConfig }: Props) {
   }
 
   return (
+    <>
+      {!isAuthenticated ? (
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={() => {
+            sessionStorage.setItem(
+              PENDING_KEY,
+              JSON.stringify({
+                password,
+                config: passwordConfig,
+                expiresAt: Date.now() + TTL_MS,
+              })
+            );
+            router.push("/login");
+          }}
+        >
+          <SaveIcon />
+          Iniciar sesión para guardar
+        </Button>
+      ) : (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="w-full">
@@ -136,7 +177,7 @@ export function FormSavePassword({ password, passwordConfig }: Props) {
                       <Input
                         disabled
                         {...field}
-                        className="h-12 bg-gray-100 font-mono text-gray-800"
+                        className="h-12 bg-muted font-mono text-foreground"
                       />
                     </FormControl>
                     <FormMessage />
@@ -144,8 +185,8 @@ export function FormSavePassword({ password, passwordConfig }: Props) {
                 )}
               />
 
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-gray-200 rounded-xl p-4">
-                <h3 className="text-sm font-semibold text-blue-800 mb-3">
+              <div className="bg-accent border border-border rounded-xl p-4">
+                <h3 className="text-sm font-semibold text-accent-foreground mb-3">
                   Configuración aplicada
                 </h3>
                 <div className="space-y-4 text-sm">
@@ -173,6 +214,8 @@ export function FormSavePassword({ password, passwordConfig }: Props) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+      )}
+    </>
   );
 }
 

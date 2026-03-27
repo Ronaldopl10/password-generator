@@ -27,10 +27,8 @@ export function PasswordDeleteDialog({ id }: Props) {
     async onSuccess(data) {
       toast.success(`Password: ${data.title} fue eliminada 🗑 ❌ `);
 
-      //TODO: revalidar la data
-      queryClient.invalidateQueries({
-        queryKey: ["password"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["password"] });
+      queryClient.invalidateQueries({ queryKey: ["subscription"] });
     },
     onError() {
       toast.error("Ocurrió un error de servidor");
