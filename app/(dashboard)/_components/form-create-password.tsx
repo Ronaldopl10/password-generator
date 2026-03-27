@@ -48,8 +48,9 @@ const options = [
   },
 ] as const;
 
-const FormCreatePassword = () => {
+const FormCreatePassword = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   const [password, setPassword] = useState("");
+  const [pendingAutoOpen, setPendingAutoOpen] = useState(false);
 
   const form = useForm<PasswordConfig>({
     defaultValues: {
@@ -70,6 +71,29 @@ const FormCreatePassword = () => {
       length: 10,
     });
     setPassword(generated);
+
+    // Restaurar contraseña pendiente si el usuario acaba de autenticarse
+    if (isAuthenticated) {
+      const raw = sessionStorage.getItem("pg_pending");
+      if (raw) {
+        try {
+          const pending = JSON.parse(raw) as {
+            password: string;
+            config: PasswordConfig;
+            expiresAt: number;
+          };
+          sessionStorage.removeItem("pg_pending"); // consumir inmediatamente
+          if (pending.expiresAt > Date.now()) {
+            setPassword(pending.password);
+            form.reset(pending.config);
+            setPendingAutoOpen(true);
+          }
+        } catch {
+          sessionStorage.removeItem("pg_pending");
+        }
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCopyPassword = () => {
@@ -85,27 +109,21 @@ const FormCreatePassword = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
-      <header className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-gray-700">Password Generator</h1>
-        <p className="text-gray-600">
-          Crea tus contraseñas más seguras y personalizadas
-        </p>
-      </header>
-
-      <Card className="bg-gradient-to-r from-gray-900 to-gray-800">
+    <div className="space-y-6 pb-6">
+      <Card className="bg-primary text-primary-foreground">
         <CardContent className="flex items-center justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <p className="text-sm text-slate-400 mb-1">
+            <p className="text-sm text-primary-foreground/60 mb-1">
               Tu contraseña generada:
             </p>
-            <p className="text-xl font-mono break-all text-green-400 leading-relaxed">
+            <p className="text-xl font-mono break-all text-primary-foreground leading-relaxed">
               {password}
             </p>
           </div>
           <Button
             onClick={handleCopyPassword}
-            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-all duration-200 hover:scale-105 cursor-pointer"
+            variant="secondary"
+            className="shrink-0 px-4 py-2 transition-all duration-200 hover:scale-105 cursor-pointer"
           >
             <CopyIcon />
           </Button>
@@ -114,7 +132,7 @@ const FormCreatePassword = () => {
 
       <Card>
         <CardContent>
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          <h2 className="text-xl font-semibold text-foreground mb-4">
             Configuración de tu contraseña:
           </h2>
           <Form {...form}>
@@ -127,7 +145,7 @@ const FormCreatePassword = () => {
                 name="length"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm font-medium text-gray-700">
+                    <FormLabel className="text-sm font-medium text-foreground">
                       Longitud de tu contraseña
                     </FormLabel>
                     <FormControl>
@@ -142,7 +160,7 @@ const FormCreatePassword = () => {
               />
 
               <div className="space-y-3 ">
-                <h3 className="text-sm font-medium text-gray-700">
+                <h3 className="text-sm font-medium text-foreground">
                   Incluir caracteres
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -180,6 +198,9 @@ const FormCreatePassword = () => {
                 <FormSavePassword
                   password={password}
                   passwordConfig={form.getValues()}
+                  isAuthenticated={isAuthenticated}
+                  autoOpen={pendingAutoOpen}
+                  onAutoOpenConsumed={() => setPendingAutoOpen(false)}
                 />
               </div>
             </form>
