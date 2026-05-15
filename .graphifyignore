@@ -1,0 +1,14 @@
+# Dependencies y builds
+node_modules/
+dist/
+build/
+target/
+*.min.js
+*.generated.py
+# Logs y temporales
+*.log
+tmp/
+.cache/
+# env files (can opt-in for committing if needed)
+.env*
+.env*.local

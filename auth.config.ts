@@ -3,6 +3,7 @@ import type { NextAuthConfig } from "next-auth";
 // Base config WITHOUT PrismaAdapter — safe for edge runtime (proxy)
 export const authConfig: NextAuthConfig = {
   secret: process.env.AUTH_SECRET,
+  trustHost: true,
   pages: {
     signIn: "/login",
     error: "/login",

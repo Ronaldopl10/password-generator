@@ -45,3 +45,16 @@ next-env.d.ts
 # Documentación de desarrollo interna
 MDs/
 .vscode*
+
+
+# Graphify: archivos locales que no comparten estado entre máquinas
+# (no commitear: basado en mtime, se rompe en otro clone)
+graphify-out/manifest.json
+# (no commitear: solo local, no relevante para el equipo)
+graphify-out/cost.json
+# (no commitear: entorno python local)
+graphify-out/.graphify_python
+# (no commitear: archivos temporales de extracción)
+graphify-out/.graphify_*.json
+# (opcional: commit para speed, ignorar para repo chico)
+graphify-out/cache/
