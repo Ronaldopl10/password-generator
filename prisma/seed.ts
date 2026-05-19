@@ -9,13 +9,13 @@ async function main() {
     {
       name: "free",
       displayName: "Free",
-      maxPasswords: 5,
+      maxPasswords: 18,
       price: 0,
     },
     {
       name: "starter",
       displayName: "Starter",
-      maxPasswords: 15,
+      maxPasswords: 40,
       price: 2.99,
     },
     {
