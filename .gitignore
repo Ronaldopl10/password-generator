@@ -58,3 +58,7 @@ graphify-out/.graphify_python
 graphify-out/.graphify_*.json
 # (opcional: commit para speed, ignorar para repo chico)
 graphify-out/cache/
+
+openspec/
+.opencode/
+.atl/

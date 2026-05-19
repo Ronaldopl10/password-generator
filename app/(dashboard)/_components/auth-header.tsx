@@ -3,6 +3,7 @@ import { signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { LogIn, LogOut, UserCircle } from "lucide-react";
 import Link from "next/link";
+import ChangePasswordDialog from "./change-password-dialog";
 
 export default async function AuthHeader() {
   const session = await auth();
@@ -35,6 +36,7 @@ export default async function AuthHeader() {
         <UserCircle className="size-4" />
         <span className="hidden sm:inline">{session.user.name ?? session.user.email}</span>
       </div>
+      <ChangePasswordDialog />
       <form
         action={async () => {
           "use server";

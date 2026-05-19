@@ -19,10 +19,11 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts      Account[]
-  sessions      Session[]
-  passwords     Password[]
-  subscription  Subscription?
+  accounts             Account[]
+  sessions             Session[]
+  passwords            Password[]
+  passwordResetTokens  PasswordResetToken[]
+  subscription         Subscription?
 }
 
 model Account {
@@ -101,4 +102,15 @@ model Password {
 
   userId String
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expires   DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
 }
