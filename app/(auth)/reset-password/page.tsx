@@ -9,6 +9,7 @@ import {
 import { resetPasswordAction } from "../_actions/reset-password.action";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Eye, EyeOff } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -31,6 +32,8 @@ import { toast } from "sonner";
 
 export default function ResetPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -110,13 +113,14 @@ export default function ResetPasswordPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Nueva contraseña</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        {...field}
-                      />
-                    </FormControl>
+                    <div className="relative">
+                      <FormControl>
+                        <Input type={showPassword ? "text" : "password"} className="pr-10" placeholder="••••••••" {...field} />
+                      </FormControl>
+                      <Button type="button" variant="ghost" size="sm" className="absolute right-0 top-0 h-full px-3 text-muted-foreground" onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                      </Button>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -127,13 +131,14 @@ export default function ResetPasswordPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Confirmar contraseña</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="••••••••"
-                        {...field}
-                      />
-                    </FormControl>
+                    <div className="relative">
+                      <FormControl>
+                        <Input type={showConfirm ? "text" : "password"} className="pr-10" placeholder="••••••••" {...field} />
+                      </FormControl>
+                      <Button type="button" variant="ghost" size="sm" className="absolute right-0 top-0 h-full px-3 text-muted-foreground" onClick={() => setShowConfirm(!showConfirm)}>
+                        {showConfirm ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                      </Button>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

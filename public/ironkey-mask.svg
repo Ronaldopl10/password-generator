@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 820" fill="none">
+  <!-- === IronKey: Iron Man Mask Silhouette + Key + Text === -->
+  <!-- Basado en guia-iron-mask.svg con coordenadas exactas -->
+
+  <defs>
+    <mask id="ironmask">
+      <!-- Fondo negro = todo oculto -->
+      <rect x="0" y="0" width="680" height="820" fill="black"/>
+      <!-- Silueta blanca = revela la forma del casco -->
+      <g transform="translate(340,410)">
+        <path fill="white" d="M 0,-388 C -55,-388 -135,-364 -190,-302 C -235,-252 -258,-185 -260,-110 C -262,-45 -248,22 -228,80 C -205,150 -170,210 -135,256 C -105,297 -72,328 -46,345 C -24,358 -8,362 0,362 C 8,362 24,358 46,345 C 72,328 105,297 135,256 C 170,210 205,150 228,80 C 248,22 262,-45 260,-110 C 258,-185 235,-252 190,-302 C 135,-364 55,-388 0,-388 Z"/>
+        <!-- Hoyo negro = cara transparente -->
+        <path fill="black" d="M 0,-338 C -45,-338 -110,-318 -155,-265 C -193,-220 -212,-160 -214,-98 C -215,-42 -203,22 -186,74 C -165,138 -136,192 -108,232 C -82,268 -56,294 -35,306 C -17,316 -6,319 0,319 C 6,319 17,316 35,306 C 56,294 82,268 108,232 C 136,192 165,138 186,74 C 203,22 215,-42 214,-98 C 212,-160 193,-220 155,-265 C 110,-318 45,-338 0,-338 Z"/>
+      </g>
+    </mask>
+  </defs>
+
+  <!-- Silueta de la máscara rellena con currentColor -->
+  <rect x="0" y="0" width="680" height="820" fill="currentColor" mask="url(#ironmask)"/>
+
+  <!-- Características faciales, llave y texto -->
+  <g transform="translate(340,410)">
+
+    <!-- === CARACTERÍSTICAS FACIALES (de guia-iron-mask.svg) === -->
+
+    <!-- Panel central de la frente (cresta icónica) -->
+    <path fill="currentColor" d="M -50,-338 L -58,-225 L 58,-225 L 50,-338 Z"/>
+
+    <!-- Franja izquierda de la frente -->
+    <path fill="currentColor" d="M -155,-265 C -148,-316 -95,-338 -50,-338 L -72,-240 C -105,-222 -142,-188 -165,-145 L -214,-98 C -212,-160 -193,-220 -155,-265 Z"/>
+
+    <!-- Franja derecha de la frente -->
+    <path fill="currentColor" d="M 155,-265 C 148,-316 95,-338 50,-338 L 72,-240 C 105,-222 142,-188 165,-145 L 214,-98 C 212,-160 193,-220 155,-265 Z"/>
+
+    <!-- Ojo izquierdo -->
+    <path fill="currentColor" d="M -172,-50 L -90,-80 L -82,-38 L -162,18 Z"/>
+
+    <!-- Ojo derecho -->
+    <path fill="currentColor" d="M 172,-50 L 90,-80 L 82,-38 L 162,18 Z"/>
+
+    <!-- Barra de la boca con hueco -->
+    <path fill="currentColor" fill-rule="evenodd" d="
+      M -62,235 L -50,255 L -40,268 L 40,268 L 50,255 L 62,235 Z
+      M -42,235 L -42,265 L 42,265 L 42,235 Z
+    "/>
+
+    <!-- Placa del mentón -->
+    <path fill="currentColor" d="M -42,268 L -32,306 L 32,306 L 42,268 Z"/>
+
+    <!-- Mentón inferior -->
+    <path fill="currentColor" d="M -46,345 C -24,358 -8,362 0,362 C 8,362 24,358 46,345 L 40,318 C 20,328 8,331 0,331 C -8,331 -20,328 -40,318 Z"/>
+
+    <!-- Muesca del mentón -->
+    <path fill="currentColor" d="M -28,306 L -20,331 L 20,331 L 28,306 L 0,316 Z"/>
+
+    <!-- === LLAVE (centro de la cara, donde indica el mockup) === -->
+
+    <!-- Arco del llavero -->
+    <circle cx="0" cy="0" r="70" stroke="currentColor" stroke-width="20" fill="none"/>
+    <circle cx="0" cy="0" r="35" stroke="currentColor" stroke-width="14" fill="none"/>
+
+    <!-- Shaft de la llave -->
+    <rect x="-25" y="70" width="50" height="140" rx="10" fill="currentColor"/>
+
+    <!-- Dientes de la llave -->
+    <path d="M 25,110 L 85,110 L 85,130 L 25,130" fill="currentColor"/>
+    <path d="M 25,150 L 70,150 L 70,170 L 25,170" fill="currentColor"/>
+    <path d="M 25,190 L 90,190 L 90,210 L 25,210" fill="currentColor"/>
+
+    <!-- === TEXTO: IRON-KEY (en la barbilla) === -->
+    <text x="0" y="390" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="800" fill="currentColor" letter-spacing="8">IRON-KEY</text>
+  </g>
+</svg>
