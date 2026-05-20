@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 820" width="680" height="820">
+  <title>Máscara de Iron Man</title>
+  <desc>Vector SVG de la máscara de Iron Man, negro sobre transparente</desc>
+
+  <g transform="translate(340,410)">
+
+    <!-- Outer helmet (solid black) -->
+    <path fill="black" d="
+      M 0,-388
+      C -55,-388 -135,-364 -190,-302
+      C -235,-252 -258,-185 -260,-110
+      C -262,-45 -248,22 -228,80
+      C -205,150 -170,210 -135,256
+      C -105,297 -72,328 -46,345
+      C -24,358 -8,362 0,362
+      C 8,362 24,358 46,345
+      C 72,328 105,297 135,256
+      C 170,210 205,150 228,80
+      C 248,22 262,-45 260,-110
+      C 258,-185 235,-252 190,-302
+      C 135,-364 55,-388 0,-388 Z
+    "/>
+
+    <!-- Inner face cutout -->
+    <path fill="white" d="
+      M 0,-338
+      C -45,-338 -110,-318 -155,-265
+      C -193,-220 -212,-160 -214,-98
+      C -215,-42 -203,22 -186,74
+      C -165,138 -136,192 -108,232
+      C -82,268 -56,294 -35,306
+      C -17,316 -6,319 0,319
+      C 6,319 17,316 35,306
+      C 56,294 82,268 108,232
+      C 136,192 165,138 186,74
+      C 203,22 215,-42 214,-98
+      C 212,-160 193,-220 155,-265
+      C 110,-318 45,-338 0,-338 Z
+    "/>
+
+    <!-- Forehead center panel -->
+    <path fill="black" d="
+      M -50,-338 L -58,-225 L 58,-225 L 50,-338 Z
+    "/>
+
+    <!-- Left forehead stripe -->
+    <path fill="black" d="
+      M -155,-265
+      C -148,-316 -95,-338 -50,-338
+      L -72,-240
+      C -105,-222 -142,-188 -165,-145
+      L -214,-98
+      C -212,-160 -193,-220 -155,-265 Z
+    "/>
+
+    <!-- Right forehead stripe -->
+    <path fill="black" d="
+      M 155,-265
+      C 148,-316 95,-338 50,-338
+      L 72,-240
+      C 105,-222 142,-188 165,-145
+      L 214,-98
+      C 212,-160 193,-220 155,-265 Z
+    "/>
+
+    <!-- Left side face panel -->
+    <path fill="black" d="
+      M -214,-98 L -165,-145 L -172,-50 L -196,8 Z
+    "/>
+
+    <!-- Right side face panel -->
+    <path fill="black" d="
+      M 214,-98 L 165,-145 L 172,-50 L 196,8 Z
+    "/>
+
+    <!-- Left eye -->
+    <path fill="black" d="
+      M -172,-50 L -90,-80 L -82,-38 L -162,18 Z
+    "/>
+
+    <!-- Right eye -->
+    <path fill="black" d="
+      M 172,-50 L 90,-80 L 82,-38 L 162,18 Z
+    "/>
+
+    <!-- Left mid-face panel -->
+    <path fill="black" d="
+      M -196,8 L -162,18 L -152,95 L -196,68 Z
+    "/>
+
+    <!-- Right mid-face panel -->
+    <path fill="black" d="
+      M 196,8 L 162,18 L 152,95 L 196,68 Z
+    "/>
+
+    <!-- Left jaw panel -->
+    <path fill="black" d="
+      M -196,68 L -152,95 L -148,185 L -118,228 L -135,256 L -170,210 Z
+    "/>
+
+    <!-- Right jaw panel -->
+    <path fill="black" d="
+      M 196,68 L 152,95 L 148,185 L 118,228 L 135,256 L 170,210 Z
+    "/>
+
+    <!-- Left cheek -->
+    <path fill="black" d="
+      M -162,18 L -82,-38 L -70,20 L -78,110 L -62,235 L -50,255
+      L -118,228 L -148,185 L -152,95 Z
+    "/>
+
+    <!-- Right cheek -->
+    <path fill="black" d="
+      M 162,18 L 82,-38 L 70,20 L 78,110 L 62,235 L 50,255
+      L 118,228 L 148,185 L 152,95 Z
+    "/>
+
+    <!-- Mouth bar -->
+    <path fill="black" d="
+      M -62,235 L -50,255 L -40,268 L 40,268 L 50,255 L 62,235 Z
+    "/>
+
+    <!-- Mouth gap -->
+    <rect fill="white" x="-42" y="235" width="84" height="22" rx="2"/>
+
+    <!-- Chin plate -->
+    <path fill="black" d="
+      M -42,268 L -32,306 L 32,306 L 42,268 Z
+    "/>
+
+    <!-- Lower chin -->
+    <path fill="black" d="
+      M -46,345
+      C -24,358 -8,362 0,362
+      C 8,362 24,358 46,345
+      L 40,318 C 20,328 8,331 0,331 C -8,331 -20,328 -40,318 Z
+    "/>
+
+    <!-- Chin notch -->
+    <path fill="black" d="
+      M -28,306 L -20,331 L 20,331 L 28,306 L 0,316 Z
+    "/>
+
+  </g>
+</svg>
