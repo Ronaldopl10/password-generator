@@ -10,9 +10,9 @@ export async function sendPasswordResetEmail(
 
   try {
     await resend.emails.send({
-      from: "PassGen <noreply@password-gestor.vercel.app>",
+      from: "IronKey <onboarding@resend.dev>",
       to: email,
-      subject: "Restablece tu contraseña - PassGen",
+      subject: "Restablece tu contraseña - IronKey",
       text: `Haz clic en el siguiente enlace para restablecer tu contraseña:\n\n${resetUrl}\n\nEste enlace expira en 1 hora.`,
     });
   } catch (error) {
