@@ -4,31 +4,220 @@
   "graph": {},
   "nodes": [
     {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "id": "readme_md",
+      "community": 150,
+      "norm_label": "readme.md"
+    },
+    {
+      "label": "IronKey",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "id": "password_generator_readme_ironkey",
+      "community": 150,
+      "norm_label": "ironkey"
+    },
+    {
+      "label": "Qu\u00e9 es",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L11",
+      "id": "password_generator_readme_qu\u00e9_es",
+      "community": 150,
+      "norm_label": "que es"
+    },
+    {
+      "label": "Por qu\u00e9 existe",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L17",
+      "id": "password_generator_readme_por_qu\u00e9_existe",
+      "community": 150,
+      "norm_label": "por que existe"
+    },
+    {
+      "label": "C\u00f3mo funciona",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L25",
+      "id": "password_generator_readme_c\u00f3mo_funciona",
+      "community": 150,
+      "norm_label": "como funciona"
+    },
+    {
+      "label": "Flujo principal",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L27",
+      "id": "password_generator_readme_flujo_principal",
+      "community": 150,
+      "norm_label": "flujo principal"
+    },
+    {
+      "label": "Autenticaci\u00f3n",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L34",
+      "id": "password_generator_readme_autenticaci\u00f3n",
+      "community": 150,
+      "norm_label": "autenticacion"
+    },
+    {
+      "label": "Recuperaci\u00f3n de contrase\u00f1a",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L42",
+      "id": "password_generator_readme_recuperaci\u00f3n_de_contrase\u00f1a",
+      "community": 150,
+      "norm_label": "recuperacion de contrasena"
+    },
+    {
+      "label": "Planes y pagos",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L48",
+      "id": "password_generator_readme_planes_y_pagos",
+      "community": 150,
+      "norm_label": "planes y pagos"
+    },
+    {
+      "label": "Stack",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L64",
+      "id": "password_generator_readme_stack",
+      "community": 150,
+      "norm_label": "stack"
+    },
+    {
+      "label": "Qu\u00e9 puede hacer el usuario",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L79",
+      "id": "password_generator_readme_qu\u00e9_puede_hacer_el_usuario",
+      "community": 150,
+      "norm_label": "que puede hacer el usuario"
+    },
+    {
+      "label": "Arquitectura",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L89",
+      "id": "password_generator_readme_arquitectura",
+      "community": 150,
+      "norm_label": "arquitectura"
+    },
+    {
+      "label": "code:block1 (app/)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L91",
+      "id": "password_generator_readme_codeblock_1",
+      "community": 150,
+      "norm_label": "code:block1 (app/)"
+    },
+    {
+      "label": "Setup local",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L107",
+      "id": "password_generator_readme_setup_local",
+      "community": 150,
+      "norm_label": "setup local"
+    },
+    {
+      "label": "code:bash (npm install)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L111",
+      "id": "password_generator_readme_codeblock_2",
+      "community": 150,
+      "norm_label": "code:bash (npm install)"
+    },
+    {
+      "label": "Variables de entorno",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L124",
+      "id": "password_generator_readme_variables_de_entorno",
+      "community": 150,
+      "norm_label": "variables de entorno"
+    },
+    {
+      "label": "Deploy",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L140",
+      "id": "password_generator_readme_deploy",
+      "community": 150,
+      "norm_label": "deploy"
+    },
+    {
+      "label": "Seguridad: qu\u00e9 garantiza y qu\u00e9 no",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L153",
+      "id": "password_generator_readme_seguridad_qu\u00e9_garantiza_y_qu\u00e9_no",
+      "community": 150,
+      "norm_label": "seguridad: que garantiza y que no"
+    },
+    {
+      "label": "Limitaciones conocidas y deuda t\u00e9cnica",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L166",
+      "id": "password_generator_readme_limitaciones_conocidas_y_deuda_t\u00e9cnica",
+      "community": 150,
+      "norm_label": "limitaciones conocidas y deuda tecnica"
+    },
+    {
+      "label": "Documentaci\u00f3n del repo",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L177",
+      "id": "password_generator_readme_documentaci\u00f3n_del_repo",
+      "community": 150,
+      "norm_label": "documentacion del repo"
+    },
+    {
+      "label": "Roadmap",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L190",
+      "id": "password_generator_readme_roadmap",
+      "community": 150,
+      "norm_label": "roadmap"
+    },
+    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L1",
-      "id": "page_tsx",
       "community": 62,
-      "norm_label": "page.tsx"
+      "norm_label": "page.tsx",
+      "id": "page_tsx"
     },
     {
       "label": "PLAN_FEATURES",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L17",
-      "id": "pricing_page_plan_features",
       "community": 62,
-      "norm_label": "plan_features"
+      "norm_label": "plan_features",
+      "id": "pricing_page_plan_features"
     },
     {
       "label": "PricingPage()",
       "file_type": "code",
       "source_file": "page.tsx",
       "source_location": "L41",
-      "id": "pricing_page_pricingpage",
       "community": 62,
-      "norm_label": "pricingpage()"
+      "norm_label": "pricingpage()",
+      "id": "pricing_page_pricingpage"
     },
     {
       "label": "postcss.config.mjs",
@@ -11474,7 +11663,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/wasm-engine-edge.js",
       "source_location": "L8",
-      "community": 144,
+      "community": 153,
       "norm_label": "getglobalomit()",
       "id": "runtime_wasm_engine_edge_getglobalomit"
     },
@@ -11483,7 +11672,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/wasm-engine-edge.js",
       "source_location": "L8",
-      "community": 144,
+      "community": 153,
       "norm_label": "shouldapplyglobalomit()",
       "id": "runtime_wasm_engine_edge_shouldapplyglobalomit"
     },
@@ -12869,7 +13058,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/index-browser.js",
       "source_location": "L4",
-      "community": 8,
+      "community": 27,
       "norm_label": "un()",
       "id": "runtime_index_browser_un"
     },
@@ -16505,7 +16694,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 43,
+      "community": 74,
       "norm_label": "a()",
       "id": "runtime_react_native_a"
     },
@@ -16514,7 +16703,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 43,
+      "community": 74,
       "norm_label": "l()",
       "id": "runtime_react_native_l"
     },
@@ -16523,7 +16712,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 43,
+      "community": 74,
       "norm_label": "u()",
       "id": "runtime_react_native_u"
     },
@@ -16532,7 +16721,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 43,
+      "community": 74,
       "norm_label": "g()",
       "id": "runtime_react_native_g"
     },
@@ -16586,7 +16775,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 43,
       "norm_label": "t()",
       "id": "runtime_react_native_t"
     },
@@ -16595,7 +16784,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "ui()",
       "id": "runtime_react_native_ui"
     },
@@ -16631,7 +16820,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "ka()",
       "id": "runtime_react_native_ka"
     },
@@ -16649,7 +16838,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "oa()",
       "id": "runtime_react_native_oa"
     },
@@ -16658,7 +16847,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "pi()",
       "id": "runtime_react_native_pi"
     },
@@ -16712,7 +16901,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "di()",
       "id": "runtime_react_native_di"
     },
@@ -16739,7 +16928,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 43,
+      "community": 74,
       "norm_label": "mi()",
       "id": "runtime_react_native_mi"
     },
@@ -16748,7 +16937,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 43,
+      "community": 74,
       "norm_label": "oi()",
       "id": "runtime_react_native_oi"
     },
@@ -16757,7 +16946,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "la()",
       "id": "runtime_react_native_la"
     },
@@ -16766,7 +16955,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "da()",
       "id": "runtime_react_native_da"
     },
@@ -16775,7 +16964,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "na()",
       "id": "runtime_react_native_na"
     },
@@ -16946,7 +17135,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "wa()",
       "id": "runtime_react_native_wa"
     },
@@ -16955,7 +17144,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "tn()",
       "id": "runtime_react_native_tn"
     },
@@ -16973,7 +17162,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "xi()",
       "id": "runtime_react_native_xi"
     },
@@ -16982,7 +17171,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "nr()",
       "id": "runtime_react_native_nr"
     },
@@ -16991,7 +17180,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "he()",
       "id": "runtime_react_native_he"
     },
@@ -17000,7 +17189,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 43,
+      "community": 74,
       "norm_label": "sn()",
       "id": "runtime_react_native_sn"
     },
@@ -17153,7 +17342,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "ll()",
       "id": "runtime_react_native_ll"
     },
@@ -17162,7 +17351,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L4",
-      "community": 72,
+      "community": 141,
       "norm_label": "ni()",
       "id": "runtime_react_native_ni"
     },
@@ -17270,7 +17459,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L5",
-      "community": 74,
+      "community": 43,
       "norm_label": "gn()",
       "id": "runtime_react_native_gn"
     },
@@ -17342,7 +17531,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L5",
-      "community": 74,
+      "community": 43,
       "norm_label": "it()",
       "id": "runtime_react_native_it"
     },
@@ -17864,7 +18053,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L5",
-      "community": 43,
+      "community": 74,
       "norm_label": "dt()",
       "id": "runtime_react_native_dt"
     },
@@ -17873,7 +18062,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L5",
-      "community": 43,
+      "community": 74,
       "norm_label": "ho()",
       "id": "runtime_react_native_ho"
     },
@@ -17927,7 +18116,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L5",
-      "community": 74,
+      "community": 43,
       "norm_label": "bo()",
       "id": "runtime_react_native_bo"
     },
@@ -18125,7 +18314,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L10",
-      "community": 90,
+      "community": 43,
       "norm_label": "newline()",
       "id": "runtime_react_native_newline"
     },
@@ -18188,7 +18377,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L11",
-      "community": 90,
+      "community": 43,
       "norm_label": "indentedcurrentline()",
       "id": "runtime_react_native_indentedcurrentline"
     },
@@ -18350,7 +18539,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L11",
-      "community": 90,
+      "community": 65,
       "norm_label": "isempty()",
       "id": "runtime_react_native_isempty"
     },
@@ -18719,7 +18908,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L13",
-      "community": 74,
+      "community": 43,
       "norm_label": "pe()",
       "id": "runtime_react_native_pe"
     },
@@ -18728,7 +18917,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L13",
-      "community": 74,
+      "community": 43,
       "norm_label": "qo()",
       "id": "runtime_react_native_qo"
     },
@@ -18809,7 +18998,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L13",
-      "community": 43,
+      "community": 72,
       "norm_label": "append()",
       "id": "runtime_react_native_append"
     },
@@ -19205,7 +19394,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 90,
+      "community": 43,
       "norm_label": "jr()",
       "id": "runtime_react_native_jr"
     },
@@ -19214,7 +19403,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 90,
+      "community": 43,
       "norm_label": "ss()",
       "id": "runtime_react_native_ss"
     },
@@ -19241,7 +19430,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 72,
+      "community": 43,
       "norm_label": "as()",
       "id": "runtime_react_native_as"
     },
@@ -19340,7 +19529,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 74,
+      "community": 43,
       "norm_label": "pp()",
       "id": "runtime_react_native_pp"
     },
@@ -19412,7 +19601,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 43,
+      "community": 72,
       "norm_label": "gs()",
       "id": "runtime_react_native_gs"
     },
@@ -19430,7 +19619,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 72,
+      "community": 43,
       "norm_label": "hp()",
       "id": "runtime_react_native_hp"
     },
@@ -19457,7 +19646,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 90,
+      "community": 43,
       "norm_label": "ws()",
       "id": "runtime_react_native_ws"
     },
@@ -19502,7 +19691,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 90,
+      "community": 65,
       "norm_label": "ps()",
       "id": "runtime_react_native_ps"
     },
@@ -19511,7 +19700,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 90,
+      "community": 65,
       "norm_label": "vs()",
       "id": "runtime_react_native_vs"
     },
@@ -19529,7 +19718,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L15",
-      "community": 90,
+      "community": 43,
       "norm_label": "ks()",
       "id": "runtime_react_native_ks"
     },
@@ -19916,7 +20105,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L65",
-      "community": 43,
+      "community": 72,
       "norm_label": "xt()",
       "id": "runtime_react_native_xt"
     },
@@ -19925,7 +20114,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L65",
-      "community": 90,
+      "community": 43,
       "norm_label": "qp()",
       "id": "runtime_react_native_qp"
     },
@@ -20177,7 +20366,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/react-native.js",
       "source_location": "L77",
-      "community": 72,
+      "community": 43,
       "norm_label": "pt()",
       "id": "runtime_react_native_pt"
     },
@@ -20447,7 +20636,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 15,
       "norm_label": "fa()",
       "id": "runtime_edge_fa"
     },
@@ -20465,7 +20654,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 37,
+      "community": 7,
       "norm_label": "wi()",
       "id": "runtime_edge_wi"
     },
@@ -20483,7 +20672,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 59,
+      "community": 7,
       "norm_label": "la()",
       "id": "runtime_edge_la"
     },
@@ -20501,7 +20690,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 15,
       "norm_label": "ba()",
       "id": "runtime_edge_ba"
     },
@@ -20519,7 +20708,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 15,
       "norm_label": "va()",
       "id": "runtime_edge_va"
     },
@@ -20528,7 +20717,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 15,
       "norm_label": "ei()",
       "id": "runtime_edge_ei"
     },
@@ -20537,7 +20726,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 15,
       "norm_label": "ja()",
       "id": "runtime_edge_ja"
     },
@@ -20546,7 +20735,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 15,
       "norm_label": "ga()",
       "id": "runtime_edge_ga"
     },
@@ -20555,7 +20744,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 15,
       "norm_label": "wa()",
       "id": "runtime_edge_wa"
     },
@@ -20600,7 +20789,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 40,
+      "community": 55,
       "norm_label": "pi()",
       "id": "runtime_edge_pi"
     },
@@ -20609,7 +20798,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 40,
+      "community": 55,
       "norm_label": "vi()",
       "id": "runtime_edge_vi"
     },
@@ -20618,7 +20807,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 40,
+      "community": 55,
       "norm_label": "ti()",
       "id": "runtime_edge_ti"
     },
@@ -20690,7 +20879,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 15,
       "norm_label": "ya()",
       "id": "runtime_edge_ya"
     },
@@ -20726,7 +20915,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 59,
+      "community": 7,
       "norm_label": "hn()",
       "id": "runtime_edge_hn"
     },
@@ -20753,7 +20942,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 53,
       "norm_label": "sl()",
       "id": "runtime_edge_sl"
     },
@@ -20798,7 +20987,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 37,
+      "community": 7,
       "norm_label": "pl()",
       "id": "runtime_edge_pl"
     },
@@ -20879,7 +21068,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 37,
+      "community": 7,
       "norm_label": "ki()",
       "id": "runtime_edge_ki"
     },
@@ -20897,7 +21086,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 141,
+      "community": 59,
       "norm_label": "emit()",
       "id": "runtime_edge_emit"
     },
@@ -20978,7 +21167,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 53,
       "norm_label": "ye()",
       "id": "runtime_edge_ye"
     },
@@ -20987,7 +21176,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 7,
+      "community": 53,
       "norm_label": "rl()",
       "id": "runtime_edge_rl"
     },
@@ -21050,7 +21239,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 19,
+      "community": 40,
       "norm_label": "an()",
       "id": "runtime_edge_an"
     },
@@ -21104,7 +21293,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 141,
+      "community": 59,
       "norm_label": "wr()",
       "id": "runtime_edge_wr"
     },
@@ -21338,7 +21527,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 59,
+      "community": 53,
       "norm_label": "nu()",
       "id": "runtime_edge_nu"
     },
@@ -21446,7 +21635,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 59,
+      "community": 53,
       "norm_label": "fu()",
       "id": "runtime_edge_fu"
     },
@@ -21491,7 +21680,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L4",
-      "community": 19,
+      "community": 40,
       "norm_label": "bu()",
       "id": "runtime_edge_bu"
     },
@@ -21635,7 +21824,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 19,
+      "community": 40,
       "norm_label": "ko()",
       "id": "runtime_edge_ko"
     },
@@ -21644,7 +21833,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 19,
+      "community": 40,
       "norm_label": "io()",
       "id": "runtime_edge_io"
     },
@@ -21680,7 +21869,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 40,
+      "community": 55,
       "norm_label": "write()",
       "id": "runtime_edge_write"
     },
@@ -21698,7 +21887,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 40,
+      "community": 55,
       "norm_label": "writeline()",
       "id": "runtime_edge_writeline"
     },
@@ -21707,7 +21896,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 40,
+      "community": 53,
       "norm_label": "newline()",
       "id": "runtime_edge_newline"
     },
@@ -21716,7 +21905,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 40,
+      "community": 55,
       "norm_label": "withindent()",
       "id": "runtime_edge_withindent"
     },
@@ -21725,7 +21914,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 40,
+      "community": 55,
       "norm_label": "afternextnewline()",
       "id": "runtime_edge_afternextnewline"
     },
@@ -21734,7 +21923,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 40,
+      "community": 55,
       "norm_label": "indent()",
       "id": "runtime_edge_indent"
     },
@@ -21743,7 +21932,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 40,
+      "community": 55,
       "norm_label": "unindent()",
       "id": "runtime_edge_unindent"
     },
@@ -21752,7 +21941,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L5",
-      "community": 40,
+      "community": 55,
       "norm_label": "addmarginsymbol()",
       "id": "runtime_edge_addmarginsymbol"
     },
@@ -21770,7 +21959,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L6",
-      "community": 40,
+      "community": 55,
       "norm_label": "getcurrentlinelength()",
       "id": "runtime_edge_getcurrentlinelength"
     },
@@ -21779,7 +21968,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L6",
-      "community": 40,
+      "community": 53,
       "norm_label": "indentedcurrentline()",
       "id": "runtime_edge_indentedcurrentline"
     },
@@ -21797,7 +21986,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L6",
-      "community": 40,
+      "community": 55,
       "norm_label": "underline()",
       "id": "runtime_edge_underline"
     },
@@ -21806,7 +21995,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L6",
-      "community": 40,
+      "community": 55,
       "norm_label": "setcolor()",
       "id": "runtime_edge_setcolor"
     },
@@ -21842,7 +22031,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L6",
-      "community": 40,
+      "community": 55,
       "norm_label": "writeempty()",
       "id": "runtime_edge_writeempty"
     },
@@ -21851,7 +22040,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L6",
-      "community": 40,
+      "community": 55,
       "norm_label": "writewithitems()",
       "id": "runtime_edge_writewithitems"
     },
@@ -21995,7 +22184,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L6",
-      "community": 40,
+      "community": 55,
       "norm_label": "writewithcontents()",
       "id": "runtime_edge_writewithcontents"
     },
@@ -22031,7 +22220,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L7",
-      "community": 7,
+      "community": 40,
       "norm_label": "no()",
       "id": "runtime_edge_no"
     },
@@ -22130,7 +22319,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L7",
-      "community": 7,
+      "community": 40,
       "norm_label": "sc()",
       "id": "runtime_edge_sc"
     },
@@ -22193,7 +22382,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L8",
-      "community": 59,
+      "community": 40,
       "norm_label": "ut()",
       "id": "runtime_edge_ut"
     },
@@ -22823,7 +23012,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L9",
-      "community": 7,
+      "community": 40,
       "norm_label": "ps()",
       "id": "runtime_edge_ps"
     },
@@ -23039,7 +23228,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L14",
-      "community": 59,
+      "community": 7,
       "norm_label": "xc()",
       "id": "runtime_edge_xc"
     },
@@ -23066,7 +23255,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L14",
-      "community": 141,
+      "community": 59,
       "norm_label": "ls()",
       "id": "runtime_edge_ls"
     },
@@ -23165,7 +23354,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L15",
-      "community": 141,
+      "community": 59,
       "norm_label": "request()",
       "id": "runtime_edge_request"
     },
@@ -23174,7 +23363,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L15",
-      "community": 141,
+      "community": 59,
       "norm_label": "requestbatch()",
       "id": "runtime_edge_requestbatch"
     },
@@ -23183,7 +23372,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L15",
-      "community": 141,
+      "community": 59,
       "norm_label": "requestinternal()",
       "id": "runtime_edge_requestinternal"
     },
@@ -23192,7 +23381,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L15",
-      "community": 141,
+      "community": 59,
       "norm_label": "transaction()",
       "id": "runtime_edge_transaction"
     },
@@ -23219,7 +23408,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L15",
-      "community": 141,
+      "community": 59,
       "norm_label": "withretry()",
       "id": "runtime_edge_withretry"
     },
@@ -23462,7 +23651,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L23",
-      "community": 141,
+      "community": 59,
       "norm_label": "handleandlogrequesterror()",
       "id": "runtime_edge_handleandlogrequesterror"
     },
@@ -23534,7 +23723,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L28",
-      "community": 7,
+      "community": 15,
       "norm_label": "bt()",
       "id": "runtime_edge_bt"
     },
@@ -23543,7 +23732,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L28",
-      "community": 7,
+      "community": 15,
       "norm_label": "wp()",
       "id": "runtime_edge_wp"
     },
@@ -23597,7 +23786,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge.js",
       "source_location": "L33",
-      "community": 7,
+      "community": 15,
       "norm_label": "tp()",
       "id": "runtime_edge_tp"
     },
@@ -23633,7 +23822,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 51,
+      "community": 17,
       "norm_label": "l()",
       "id": "runtime_edge_esm_l"
     },
@@ -23858,7 +24047,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 51,
+      "community": 17,
       "norm_label": "di()",
       "id": "runtime_edge_esm_di"
     },
@@ -23867,7 +24056,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 51,
+      "community": 17,
       "norm_label": "oi()",
       "id": "runtime_edge_esm_oi"
     },
@@ -23876,7 +24065,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 51,
+      "community": 17,
       "norm_label": "ra()",
       "id": "runtime_edge_esm_ra"
     },
@@ -24137,7 +24326,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 51,
+      "community": 17,
       "norm_label": "pn()",
       "id": "runtime_edge_esm_pn"
     },
@@ -24236,7 +24425,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 45,
+      "community": 3,
       "norm_label": "ol()",
       "id": "runtime_edge_esm_ol"
     },
@@ -24371,7 +24560,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 17,
+      "community": 3,
       "norm_label": "ye()",
       "id": "runtime_edge_esm_ye"
     },
@@ -24380,7 +24569,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 17,
+      "community": 3,
       "norm_label": "yl()",
       "id": "runtime_edge_esm_yl"
     },
@@ -24389,7 +24578,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 17,
+      "community": 3,
       "norm_label": "wl()",
       "id": "runtime_edge_esm_wl"
     },
@@ -24488,7 +24677,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 51,
+      "community": 13,
       "norm_label": "constructor()",
       "id": "runtime_edge_esm_constructor"
     },
@@ -24515,7 +24704,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 45,
+      "community": 3,
       "norm_label": "hr()",
       "id": "runtime_edge_esm_hr"
     },
@@ -24524,7 +24713,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 13,
+      "community": 58,
       "norm_label": "r()",
       "id": "runtime_edge_esm_r"
     },
@@ -24542,7 +24731,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 45,
+      "community": 3,
       "norm_label": "pr()",
       "id": "runtime_edge_esm_pr"
     },
@@ -24560,7 +24749,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 3,
+      "community": 17,
       "norm_label": "fe()",
       "id": "runtime_edge_esm_fe"
     },
@@ -24578,7 +24767,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 45,
+      "community": 3,
       "norm_label": "ho()",
       "id": "runtime_edge_esm_ho"
     },
@@ -24587,7 +24776,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 3,
+      "community": 17,
       "norm_label": "so()",
       "id": "runtime_edge_esm_so"
     },
@@ -24632,7 +24821,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 45,
+      "community": 3,
       "norm_label": "yr()",
       "id": "runtime_edge_esm_yr"
     },
@@ -24668,7 +24857,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L4",
-      "community": 3,
+      "community": 17,
       "norm_label": "eo()",
       "id": "runtime_edge_esm_eo"
     },
@@ -25136,7 +25325,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L5",
-      "community": 17,
+      "community": 58,
       "norm_label": "newline()",
       "id": "runtime_edge_esm_newline"
     },
@@ -25190,7 +25379,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L5",
-      "community": 17,
+      "community": 58,
       "norm_label": "tostring()",
       "id": "runtime_edge_esm_tostring"
     },
@@ -25208,7 +25397,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L6",
-      "community": 17,
+      "community": 58,
       "norm_label": "indentedcurrentline()",
       "id": "runtime_edge_esm_indentedcurrentline"
     },
@@ -25550,7 +25739,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L7",
-      "community": 51,
+      "community": 13,
       "norm_label": "_getname()",
       "id": "runtime_edge_esm_getname"
     },
@@ -25559,7 +25748,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L7",
-      "community": 51,
+      "community": 13,
       "norm_label": "_getnamespace()",
       "id": "runtime_edge_esm_getnamespace"
     },
@@ -25586,7 +25775,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L7",
-      "community": 13,
+      "community": 58,
       "norm_label": "renderallmessages()",
       "id": "runtime_edge_esm_renderallmessages"
     },
@@ -26198,7 +26387,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L9",
-      "community": 13,
+      "community": 3,
       "norm_label": "qr()",
       "id": "runtime_edge_esm_qr"
     },
@@ -26207,7 +26396,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L9",
-      "community": 13,
+      "community": 3,
       "norm_label": "rs()",
       "id": "runtime_edge_esm_rs"
     },
@@ -26252,7 +26441,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L9",
-      "community": 51,
+      "community": 13,
       "norm_label": "os()",
       "id": "runtime_edge_esm_os"
     },
@@ -26306,7 +26495,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L9",
-      "community": 17,
+      "community": 58,
       "norm_label": "cs()",
       "id": "runtime_edge_esm_cs"
     },
@@ -26378,7 +26567,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L9",
-      "community": 51,
+      "community": 13,
       "norm_label": "bs()",
       "id": "runtime_edge_esm_bs"
     },
@@ -26675,7 +26864,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L16",
-      "community": 17,
+      "community": 58,
       "norm_label": "js()",
       "id": "runtime_edge_esm_js"
     },
@@ -26684,7 +26873,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L16",
-      "community": 17,
+      "community": 58,
       "norm_label": "np()",
       "id": "runtime_edge_esm_np"
     },
@@ -26693,7 +26882,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L16",
-      "community": 17,
+      "community": 58,
       "norm_label": "gs()",
       "id": "runtime_edge_esm_gs"
     },
@@ -26702,7 +26891,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L16",
-      "community": 17,
+      "community": 58,
       "norm_label": "vs()",
       "id": "runtime_edge_esm_vs"
     },
@@ -26945,7 +27134,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/edge-esm.js",
       "source_location": "L23",
-      "community": 45,
+      "community": 3,
       "norm_label": "pp()",
       "id": "runtime_edge_esm_pp"
     },
@@ -31337,7 +31526,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L4",
-      "community": 2,
+      "community": 31,
       "norm_label": "n",
       "id": "runtime_library_n"
     },
@@ -31346,7 +31535,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L4",
-      "community": 50,
+      "community": 12,
       "norm_label": "i",
       "id": "runtime_library_i"
     },
@@ -31355,7 +31544,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L4",
-      "community": 2,
+      "community": 31,
       "norm_label": "bi()",
       "id": "runtime_library_bi"
     },
@@ -31364,7 +31553,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L4",
-      "community": 2,
+      "community": 31,
       "norm_label": "ei()",
       "id": "runtime_library_ei"
     },
@@ -31373,7 +31562,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L4",
-      "community": 2,
+      "community": 31,
       "norm_label": "vc()",
       "id": "runtime_library_vc"
     },
@@ -31382,7 +31571,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L4",
-      "community": 12,
+      "community": 73,
       "norm_label": "cs()",
       "id": "runtime_library_cs"
     },
@@ -31391,7 +31580,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L4",
-      "community": 12,
+      "community": 73,
       "norm_label": "wi()",
       "id": "runtime_library_wi"
     },
@@ -31481,7 +31670,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L6",
-      "community": 12,
+      "community": 73,
       "norm_label": "fp()",
       "id": "runtime_library_fp"
     },
@@ -31526,7 +31715,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L6",
-      "community": 2,
+      "community": 50,
       "norm_label": "e()",
       "id": "runtime_library_e"
     },
@@ -31679,7 +31868,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L7",
-      "community": 12,
+      "community": 73,
       "norm_label": "l",
       "id": "runtime_library_l"
     },
@@ -31742,7 +31931,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L7",
-      "community": 12,
+      "community": 73,
       "norm_label": "je()",
       "id": "runtime_library_je"
     },
@@ -31760,7 +31949,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L7",
-      "community": 55,
+      "community": 22,
       "norm_label": "constructor()",
       "id": "runtime_library_constructor"
     },
@@ -31769,7 +31958,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L7",
-      "community": 50,
+      "community": 12,
       "norm_label": "hr()",
       "id": "runtime_library_hr"
     },
@@ -31778,7 +31967,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L7",
-      "community": 50,
+      "community": 12,
       "norm_label": "with()",
       "id": "runtime_library_with"
     },
@@ -31787,7 +31976,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L7",
-      "community": 50,
+      "community": 12,
       "norm_label": "when()",
       "id": "runtime_library_when"
     },
@@ -31796,7 +31985,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L7",
-      "community": 50,
+      "community": 12,
       "norm_label": "otherwise()",
       "id": "runtime_library_otherwise"
     },
@@ -31832,7 +32021,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L7",
-      "community": 50,
+      "community": 12,
       "norm_label": "jt()",
       "id": "runtime_library_jt"
     },
@@ -31850,7 +32039,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L7",
-      "community": 50,
+      "community": 12,
       "norm_label": "rc()",
       "id": "runtime_library_rc"
     },
@@ -31859,7 +32048,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L8",
-      "community": 50,
+      "community": 12,
       "norm_label": "tc()",
       "id": "runtime_library_tc"
     },
@@ -31895,7 +32084,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L8",
-      "community": 50,
+      "community": 12,
       "norm_label": "ic()",
       "id": "runtime_library_ic"
     },
@@ -31949,7 +32138,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L8",
-      "community": 12,
+      "community": 73,
       "norm_label": "gi()",
       "id": "runtime_library_gi"
     },
@@ -31967,7 +32156,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L8",
-      "community": 50,
+      "community": 12,
       "norm_label": "lc()",
       "id": "runtime_library_lc"
     },
@@ -31976,7 +32165,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L9",
-      "community": 2,
+      "community": 50,
       "norm_label": "uc()",
       "id": "runtime_library_uc"
     },
@@ -32003,7 +32192,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L9",
-      "community": 50,
+      "community": 12,
       "norm_label": "rs()",
       "id": "runtime_library_rs"
     },
@@ -32084,7 +32273,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L9",
-      "community": 50,
+      "community": 12,
       "norm_label": "ri()",
       "id": "runtime_library_ri"
     },
@@ -32255,7 +32444,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 12,
+      "community": 54,
       "norm_label": "qi()",
       "id": "runtime_library_qi"
     },
@@ -32300,7 +32489,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 12,
+      "community": 73,
       "norm_label": "j()",
       "id": "runtime_library_j"
     },
@@ -32318,7 +32507,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 12,
+      "community": 73,
       "norm_label": "at()",
       "id": "runtime_library_at"
     },
@@ -32327,7 +32516,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 12,
+      "community": 54,
       "norm_label": "cn()",
       "id": "runtime_library_cn"
     },
@@ -32345,7 +32534,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 14,
+      "community": 73,
       "norm_label": "y()",
       "id": "runtime_library_y"
     },
@@ -32354,7 +32543,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 12,
+      "community": 54,
       "norm_label": "xe()",
       "id": "runtime_library_xe"
     },
@@ -32372,7 +32561,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 12,
+      "community": 73,
       "norm_label": "fn()",
       "id": "runtime_library_fn"
     },
@@ -32381,7 +32570,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 12,
+      "community": 73,
       "norm_label": "we()",
       "id": "runtime_library_we"
     },
@@ -32426,7 +32615,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 12,
+      "community": 54,
       "norm_label": "hs()",
       "id": "runtime_library_hs"
     },
@@ -32498,7 +32687,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 14,
+      "community": 73,
       "norm_label": "_p()",
       "id": "runtime_library_p"
     },
@@ -32525,7 +32714,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 14,
+      "community": 73,
       "norm_label": "qp()",
       "id": "runtime_library_qp"
     },
@@ -32588,7 +32777,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 27,
+      "community": 60,
       "norm_label": "ed()",
       "id": "runtime_library_ed"
     },
@@ -32624,7 +32813,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 55,
+      "community": 22,
       "norm_label": "id()",
       "id": "runtime_library_id"
     },
@@ -32651,7 +32840,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 55,
+      "community": 22,
       "norm_label": "ad()",
       "id": "runtime_library_ad"
     },
@@ -32705,7 +32894,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 14,
+      "community": 60,
       "norm_label": "tr()",
       "id": "runtime_library_tr"
     },
@@ -32732,7 +32921,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 55,
+      "community": 22,
       "norm_label": "get()",
       "id": "runtime_library_get"
     },
@@ -32741,7 +32930,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 55,
+      "community": 22,
       "norm_label": "set()",
       "id": "runtime_library_set"
     },
@@ -32750,7 +32939,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 55,
+      "community": 22,
       "norm_label": "getorcreate()",
       "id": "runtime_library_getorcreate"
     },
@@ -32759,7 +32948,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 12,
+      "community": 73,
       "norm_label": "zs()",
       "id": "runtime_library_zs"
     },
@@ -32786,7 +32975,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 22,
+      "community": 73,
       "norm_label": "bn()",
       "id": "runtime_library_bn"
     },
@@ -32849,7 +33038,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L24",
-      "community": 27,
+      "community": 60,
       "norm_label": "ea()",
       "id": "runtime_library_ea"
     },
@@ -32939,7 +33128,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L26",
-      "community": 27,
+      "community": 60,
       "norm_label": "highlight()",
       "id": "runtime_library_highlight"
     },
@@ -33029,7 +33218,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L29",
-      "community": 2,
+      "community": 31,
       "norm_label": "writejoined()",
       "id": "runtime_library_writejoined"
     },
@@ -33146,7 +33335,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L30",
-      "community": 2,
+      "community": 50,
       "norm_label": "additem()",
       "id": "runtime_library_additem"
     },
@@ -33164,7 +33353,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L30",
-      "community": 55,
+      "community": 22,
       "norm_label": "getprintwidth()",
       "id": "runtime_library_getprintwidth"
     },
@@ -33272,7 +33461,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L30",
-      "community": 55,
+      "community": 60,
       "norm_label": "isempty()",
       "id": "runtime_library_isempty"
     },
@@ -33371,7 +33560,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L31",
-      "community": 2,
+      "community": 50,
       "norm_label": "ma()",
       "id": "runtime_library_ma"
     },
@@ -33443,7 +33632,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L31",
-      "community": 2,
+      "community": 50,
       "norm_label": "dt()",
       "id": "runtime_library_dt"
     },
@@ -33461,7 +33650,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L31",
-      "community": 2,
+      "community": 50,
       "norm_label": "zd()",
       "id": "runtime_library_zd"
     },
@@ -33479,7 +33668,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L31",
-      "community": 55,
+      "community": 22,
       "norm_label": "_getname()",
       "id": "runtime_library_getname"
     },
@@ -33488,7 +33677,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L31",
-      "community": 55,
+      "community": 22,
       "norm_label": "_getnamespace()",
       "id": "runtime_library_getnamespace"
     },
@@ -33596,7 +33785,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 22,
       "norm_label": "pa()",
       "id": "runtime_library_pa"
     },
@@ -33605,7 +33794,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 22,
       "norm_label": "ta()",
       "id": "runtime_library_ta"
     },
@@ -33614,7 +33803,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 22,
       "norm_label": "getallcomputedfields()",
       "id": "runtime_library_getallcomputedfields"
     },
@@ -33623,7 +33812,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 22,
       "norm_label": "getallclientextensions()",
       "id": "runtime_library_getallclientextensions"
     },
@@ -33632,7 +33821,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 22,
       "norm_label": "getallmodelextensions()",
       "id": "runtime_library_getallmodelextensions"
     },
@@ -33641,7 +33830,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 22,
       "norm_label": "getallquerycallbacks()",
       "id": "runtime_library_getallquerycallbacks"
     },
@@ -33650,7 +33839,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 22,
       "norm_label": "getallbatchquerycallbacks()",
       "id": "runtime_library_getallbatchquerycallbacks"
     },
@@ -33956,7 +34145,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 54,
+      "community": 2,
       "norm_label": "cm()",
       "id": "runtime_library_cm"
     },
@@ -33965,7 +34154,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 54,
+      "community": 2,
       "norm_label": "eo()",
       "id": "runtime_library_eo"
     },
@@ -33974,7 +34163,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 22,
       "norm_label": "sql()",
       "id": "runtime_library_sql"
     },
@@ -33983,7 +34172,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 22,
       "norm_label": "values()",
       "id": "runtime_library_values"
     },
@@ -33992,7 +34181,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 49,
+      "community": 27,
       "norm_label": "_a()",
       "id": "runtime_library_a"
     },
@@ -34019,7 +34208,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 55,
+      "community": 2,
       "norm_label": "text()",
       "id": "runtime_library_text"
     },
@@ -34100,7 +34289,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L32",
-      "community": 2,
+      "community": 31,
       "norm_label": "mr()",
       "id": "runtime_library_mr"
     },
@@ -34145,7 +34334,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L34",
-      "community": 22,
+      "community": 73,
       "norm_label": "xm()",
       "id": "runtime_library_xm"
     },
@@ -34172,7 +34361,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L34",
-      "community": 54,
+      "community": 2,
       "norm_label": "qr()",
       "id": "runtime_library_qr"
     },
@@ -34199,7 +34388,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L34",
-      "community": 54,
+      "community": 2,
       "norm_label": "km()",
       "id": "runtime_library_km"
     },
@@ -34307,7 +34496,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L34",
-      "community": 55,
+      "community": 22,
       "norm_label": "nl()",
       "id": "runtime_library_nl"
     },
@@ -34316,7 +34505,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L34",
-      "community": 55,
+      "community": 22,
       "norm_label": "il()",
       "id": "runtime_library_il"
     },
@@ -34325,7 +34514,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L34",
-      "community": 12,
+      "community": 73,
       "norm_label": "ol()",
       "id": "runtime_library_ol"
     },
@@ -34334,7 +34523,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L34",
-      "community": 2,
+      "community": 31,
       "norm_label": "sl()",
       "id": "runtime_library_sl"
     },
@@ -34586,7 +34775,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L113",
-      "community": 55,
+      "community": 2,
       "norm_label": "df()",
       "id": "runtime_library_df"
     },
@@ -34595,7 +34784,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L113",
-      "community": 55,
+      "community": 2,
       "norm_label": "ft()",
       "id": "runtime_library_ft"
     },
@@ -34604,7 +34793,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L113",
-      "community": 55,
+      "community": 2,
       "norm_label": "ur()",
       "id": "runtime_library_ur"
     },
@@ -34613,7 +34802,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L113",
-      "community": 55,
+      "community": 22,
       "norm_label": "kl()",
       "id": "runtime_library_kl"
     },
@@ -34631,7 +34820,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L114",
-      "community": 12,
+      "community": 73,
       "norm_label": "gf()",
       "id": "runtime_library_gf"
     },
@@ -34640,7 +34829,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L114",
-      "community": 12,
+      "community": 73,
       "norm_label": "hf()",
       "id": "runtime_library_hf"
     },
@@ -34712,7 +34901,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L114",
-      "community": 31,
+      "community": 2,
       "norm_label": "uploadschema()",
       "id": "runtime_library_uploadschema"
     },
@@ -34784,7 +34973,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L114",
-      "community": 31,
+      "community": 2,
       "norm_label": "handleerror()",
       "id": "runtime_library_handleerror"
     },
@@ -34838,7 +35027,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L114",
-      "community": 2,
+      "community": 73,
       "norm_label": "loadlibrary()",
       "id": "runtime_library_loadlibrary"
     },
@@ -35198,7 +35387,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L124",
-      "community": 2,
+      "community": 31,
       "norm_label": "kf()",
       "id": "runtime_library_kf"
     },
@@ -35207,7 +35396,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L124",
-      "community": 2,
+      "community": 31,
       "norm_label": "mapqueryengineresult()",
       "id": "runtime_library_mapqueryengineresult"
     },
@@ -35243,7 +35432,7 @@
       "file_type": "code",
       "source_file": "generated/prisma/runtime/library.js",
       "source_location": "L124",
-      "community": 2,
+      "community": 31,
       "norm_label": "unpack()",
       "id": "runtime_library_unpack"
     },
@@ -36515,51 +36704,6 @@
       "community": 109,
       "norm_label": "graphify",
       "id": "password_generator_agents_graphify"
-    },
-    {
-      "label": "README.md",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L1",
-      "community": 150,
-      "norm_label": "readme.md",
-      "id": "readme_md"
-    },
-    {
-      "label": "Getting Started",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L3",
-      "community": 150,
-      "norm_label": "getting started",
-      "id": "password_generator_readme_getting_started"
-    },
-    {
-      "label": "code:bash (npm run dev)",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L7",
-      "community": 150,
-      "norm_label": "code:bash (npm run dev)",
-      "id": "password_generator_readme_codeblock_1"
-    },
-    {
-      "label": "Learn More",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L23",
-      "community": 150,
-      "norm_label": "learn more",
-      "id": "password_generator_readme_learn_more"
-    },
-    {
-      "label": "Deploy on Vercel",
-      "file_type": "document",
-      "source_file": "README.md",
-      "source_location": "L32",
-      "community": 150,
-      "norm_label": "deploy on vercel",
-      "id": "password_generator_readme_deploy_on_vercel"
     },
     {
       "label": "proposal.md",
@@ -39761,15 +39905,215 @@
   ],
   "links": [
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "readme_md",
+      "target": "password_generator_readme_ironkey",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_qu\u00e9_es",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_por_qu\u00e9_existe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_c\u00f3mo_funciona",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_stack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_qu\u00e9_puede_hacer_el_usuario",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L89",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_arquitectura",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_setup_local",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L124",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_variables_de_entorno",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L140",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_deploy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L153",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_seguridad_qu\u00e9_garantiza_y_qu\u00e9_no",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L166",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_limitaciones_conocidas_y_deuda_t\u00e9cnica",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L177",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_documentaci\u00f3n_del_repo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L190",
+      "weight": 1.0,
+      "source": "password_generator_readme_ironkey",
+      "target": "password_generator_readme_roadmap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "password_generator_readme_c\u00f3mo_funciona",
+      "target": "password_generator_readme_flujo_principal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "password_generator_readme_c\u00f3mo_funciona",
+      "target": "password_generator_readme_autenticaci\u00f3n",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "password_generator_readme_c\u00f3mo_funciona",
+      "target": "password_generator_readme_recuperaci\u00f3n_de_contrase\u00f1a",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "password_generator_readme_c\u00f3mo_funciona",
+      "target": "password_generator_readme_planes_y_pagos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L91",
+      "weight": 1.0,
+      "source": "password_generator_readme_arquitectura",
+      "target": "password_generator_readme_codeblock_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L111",
+      "weight": 1.0,
+      "source": "password_generator_readme_setup_local",
+      "target": "password_generator_readme_codeblock_2",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "page.tsx",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "ui_button_button",
-      "confidence_score": 1.0
+      "target": "ui_button_button"
     },
     {
       "relation": "imports",
@@ -39778,9 +40122,9 @@
       "source_file": "page.tsx",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "ui_mercadopago_checkout_mercadopagocheckout",
-      "confidence_score": 1.0
+      "target": "ui_mercadopago_checkout_mercadopagocheckout"
     },
     {
       "relation": "imports",
@@ -39789,9 +40133,9 @@
       "source_file": "page.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "ui_lemonsqueezy_checkout_lemonsqueezycheckout",
-      "confidence_score": 1.0
+      "target": "ui_lemonsqueezy_checkout_lemonsqueezycheckout"
     },
     {
       "relation": "imports",
@@ -39800,9 +40144,9 @@
       "source_file": "page.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "ui_card_card",
-      "confidence_score": 1.0
+      "target": "ui_card_card"
     },
     {
       "relation": "imports",
@@ -39811,9 +40155,9 @@
       "source_file": "page.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "ui_card_cardcontent",
-      "confidence_score": 1.0
+      "target": "ui_card_cardcontent"
     },
     {
       "relation": "imports",
@@ -39822,9 +40166,9 @@
       "source_file": "page.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "ui_card_cardfooter",
-      "confidence_score": 1.0
+      "target": "ui_card_cardfooter"
     },
     {
       "relation": "imports",
@@ -39833,9 +40177,9 @@
       "source_file": "page.tsx",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "ui_card_cardheader",
-      "confidence_score": 1.0
+      "target": "ui_card_cardheader"
     },
     {
       "relation": "contains",
@@ -39843,9 +40187,9 @@
       "source_file": "page.tsx",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "pricing_page_plan_features",
-      "confidence_score": 1.0
+      "target": "pricing_page_plan_features"
     },
     {
       "relation": "contains",
@@ -39853,9 +40197,9 @@
       "source_file": "page.tsx",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "page_tsx",
-      "target": "pricing_page_pricingpage",
-      "confidence_score": 1.0
+      "target": "pricing_page_pricingpage"
     },
     {
       "relation": "contains",
@@ -123898,46 +124242,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "readme_md",
-      "target": "password_generator_readme_getting_started"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L23",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "readme_md",
-      "target": "password_generator_readme_learn_more"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L32",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "readme_md",
-      "target": "password_generator_readme_deploy_on_vercel"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "README.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "password_generator_readme_getting_started",
-      "target": "password_generator_readme_codeblock_1"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "openspec/changes/auth-improvements/proposal.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -127175,5 +127479,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "86fb560d045358dc51bc2184f50b59098b49ff32"
+  "built_at_commit": "49c1b25e217bb182e47410113a86075fcf15fbea"
 }
