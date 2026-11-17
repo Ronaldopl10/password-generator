@@ -1,16 +1,16 @@
-# Graph Report - password-generator  (2026-10-18)
+# Graph Report - password-generator  (2026-11-07)
 
 ## Corpus Check
-- 85 files · ~136,970 words
+- 85 files · ~138,819 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4439 nodes · 8366 edges · 154 communities (131 shown, 23 thin omitted)
+- 4455 nodes · 8382 edges · 154 communities (131 shown, 23 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 45 edges (avg confidence: 0.71)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `86fb560d`
+- Built from commit: `49c1b25e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -197,11 +197,11 @@ Nodes (348): AccelerateEngineConfig, AccelerateUtils, Action, ActiveConnectorTyp
 
 ### Community 2 - "Community 2"
 Cohesion: 0.02
-Nodes (67): addItem(), ao(), bf(), bi(), bp(), bu(), build(), dispatchEngineSpans() (+59 more)
+Nodes (60): ao(), bf(), bp(), bu(), build(), cm(), df(), dispatchEngineSpans() (+52 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.02
-Nodes (42): Aa(), append(), bp(), build(), Ca(), Da(), dispatchEngineSpans(), e (+34 more)
+Nodes (50): Aa(), append(), bp(), build(), Ca(), Da(), dispatchEngineSpans(), e (+42 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.02
@@ -217,11 +217,11 @@ Nodes (46): bo(), Br(), bs(), dispatchEngineSpans(), Do(), enabled(), eo(), Es()
 
 ### Community 7 - "Community 7"
 Cohesion: 0.02
-Nodes (48): Ba(), bt(), build(), convertProtocolErrorsToClientError(), dispatchEngineSpans(), ds(), Ea(), Ei() (+40 more)
+Nodes (37): build(), convertProtocolErrorsToClientError(), dispatchEngineSpans(), ds(), Ea(), enabled(), getActiveContext(), getGlobalTracingHelper() (+29 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.05
-Nodes (44): {
+Nodes (43): {
   Decimal,
   objectEnumValues,
   makeStrictEnum,
@@ -235,7 +235,7 @@ Nodes (44): {
   Public,
   getRuntime,
   skip
-}, Prisma, PrismaClient, b(), be() (+36 more)
+}, Prisma, PrismaClient, b(), be() (+35 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.13
@@ -250,36 +250,36 @@ Cohesion: 0.06
 Nodes (49): allocUnsafeSlow(), bi(), bu(), byteLength(), construct(), _d(), eo(), Fd() (+41 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.07
-Nodes (41): at(), Ci(), cn(), cs(), dr(), ep(), fn(), fp() (+33 more)
+Cohesion: 0.08
+Nodes (35): Ci(), dr(), ep(), fromContent(), hn(), hp(), hr(), i (+27 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.07
-Nodes (33): ao(), Co(), En(), Fn(), get(), getAllBatchQueryCallbacks(), getAllClientExtensions(), getAllModelExtensions() (+25 more)
+Nodes (34): ao(), bs(), Co(), constructor(), En(), Fn(), get(), getAllBatchQueryCallbacks() (+26 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.12
-Nodes (50): aa(), addErrorMessage(), addField(), addSuggestion(), append(), asObject(), bd(), _d() (+42 more)
+Cohesion: 0.14
+Nodes (46): aa(), addErrorMessage(), addField(), addSuggestion(), append(), asObject(), bd(), _d() (+38 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.09
-Nodes (33): a(), Ai(), al(), co(), cr(), Da(), de(), dn() (+25 more)
+Cohesion: 0.06
+Nodes (44): a(), Ai(), al(), Ba(), bt(), co(), cr(), Da() (+36 more)
 
 ### Community 16 - "Community 16"
 Cohesion: 0.14
 Nodes (44): addErrorMessage(), addField(), addSuggestion(), asObject(), bo(), bp(), Cc(), dt() (+36 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.07
-Nodes (31): a(), convertProtocolErrorsToClientError(), cs(), Dl(), et(), f(), fr(), g() (+23 more)
+Cohesion: 0.08
+Nodes (28): a(), convertProtocolErrorsToClientError(), di(), Dl(), Eo(), et(), f(), fe() (+20 more)
 
 ### Community 18 - "Community 18"
 Cohesion: 0.15
 Nodes (41): addErrorMessage(), addField(), addSuggestion(), asObject(), bu(), cn(), du(), fu() (+33 more)
 
 ### Community 19 - "Community 19"
-Cohesion: 0.06
-Nodes (44): aa(), An(), bc(), bu(), _c(), Ee(), es(), fp() (+36 more)
+Cohesion: 0.07
+Nodes (40): aa(), bc(), _c(), Ee(), es(), fp(), get(), getAllBatchQueryCallbacks() (+32 more)
 
 ### Community 20 - "Community 20"
 Cohesion: 0.13
@@ -290,8 +290,8 @@ Cohesion: 0.11
 Nodes (40): An(), bp(), concat(), dp(), Fa(), findField(), fr(), getArgumentName() (+32 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.1
-Nodes (40): am(), ar(), bm(), bn(), Et(), findField(), fr, getArgumentName() (+32 more)
+Cohesion: 0.06
+Nodes (59): ad(), am(), ar(), bm(), constructor(), Et(), findField(), fr (+51 more)
 
 ### Community 23 - "Community 23"
 Cohesion: 0.12
@@ -311,7 +311,7 @@ Nodes (38): a, bc(), build(), #c(), commitTransaction(), dispatchEngineSpans(), 
 
 ### Community 27 - "Community 27"
 Cohesion: 0.08
-Nodes (33): _e(), Ai(), ea(), ed(), El(), getGlobalOmit(), getURLAndAPIKey(), Go() (+25 more)
+Nodes (32): _e(), un(), _a(), Ai(), El(), getGlobalOmit(), getURLAndAPIKey(), Go() (+24 more)
 
 ### Community 28 - "Community 28"
 Cohesion: 0.07
@@ -326,8 +326,8 @@ Cohesion: 0.2
 Nodes (16): addMarginSymbol(), afterNextNewline(), Ei(), getCurrentLineLength(), indent(), setColor(), underline(), unindent() (+8 more)
 
 ### Community 31 - "Community 31"
-Cohesion: 0.08
-Nodes (34): al(), buildQueryError(), cl(), consumeError(), Da(), getCurrentBinaryTarget(), getExternalAdapterError(), handleAndLogRequestError() (+26 more)
+Cohesion: 0.06
+Nodes (42): al(), bi(), buildQueryError(), cl(), consumeError(), Da(), Ei(), getCurrentBinaryTarget() (+34 more)
 
 ### Community 32 - "Community 32"
 Cohesion: 0.08
@@ -350,8 +350,8 @@ Cohesion: 0.12
 Nodes (23): addMarginSymbol(), afterNextNewline(), copy(), getCurrentLineLength(), indent(), indentedCurrentLine(), jt(), newLine() (+15 more)
 
 ### Community 37 - "Community 37"
-Cohesion: 0.09
-Nodes (30): bi(), ci(), fe(), ge(), I(), ie(), In(), json() (+22 more)
+Cohesion: 0.1
+Nodes (27): bi(), ci(), fe(), ge(), I(), ie(), In(), json() (+19 more)
 
 ### Community 38 - "Community 38"
 Cohesion: 0.12
@@ -363,7 +363,7 @@ Nodes (41): 10. Comandos Útiles del Proyecto, 11. Notas de Sesiones, 1. ¿Qué 
 
 ### Community 40 - "Community 40"
 Cohesion: 0.08
-Nodes (36): ac(), addItem(), addMarginSymbol(), afterNextNewline(), append(), as(), bs(), constructor() (+28 more)
+Nodes (26): ac(), addItem(), An(), append(), as(), bs(), bu(), constructor() (+18 more)
 
 ### Community 41 - "Community 41"
 Cohesion: 0.05
@@ -374,16 +374,16 @@ Cohesion: 0.06
 Nodes (32): code:bash (npm install resend), code:block10 (# ─── Resend (password reset emails) ───────────────────────), code:prisma (model PasswordResetToken {), code:typescript (export const changePasswordSchema = z), code:typescript (import { Resend } from "resend";), code:typescript ("use server";), code:typescript ("use server";), code:typescript ("use server";) (+24 more)
 
 ### Community 43 - "Community 43"
-Cohesion: 0.08
-Nodes (35): a(), ai(), An(), append(), bp(), Cn(), De(), dr() (+27 more)
+Cohesion: 0.07
+Nodes (40): ai(), An(), as(), bo(), bp(), Cn(), De(), dr() (+32 more)
 
 ### Community 44 - "Community 44"
 Cohesion: 0.14
 Nodes (25): _c(), constructor(), getArgumentName(), getArgumentPath(), getGlobalOmit(), _getName(), _getNamespace(), getSelectionPath() (+17 more)
 
 ### Community 45 - "Community 45"
-Cohesion: 0.08
-Nodes (34): an(), ar(), be(), ci(), cu(), de(), enabled(), gp() (+26 more)
+Cohesion: 0.1
+Nodes (28): an(), ar(), be(), ci(), cu(), de(), enabled(), gp() (+20 more)
 
 ### Community 46 - "Community 46"
 Cohesion: 0.08
@@ -398,32 +398,32 @@ Cohesion: 0.08
 Nodes (24): dependencies, @auth/prisma-adapter, bcryptjs, class-variance-authority, clsx, cryptr, @hookform/resolvers, lucide-react (+16 more)
 
 ### Community 49 - "Community 49"
-Cohesion: 0.12
-Nodes (24): _a(), addMarginSymbol(), afterNextNewline(), cd(), Dn(), getCurrentLineLength(), handleRequestError(), indent() (+16 more)
+Cohesion: 0.13
+Nodes (23): addMarginSymbol(), afterNextNewline(), cd(), Dn(), getCurrentLineLength(), handleRequestError(), indent(), iu() (+15 more)
 
 ### Community 50 - "Community 50"
-Cohesion: 0.17
-Nodes (19): cc(), Ho(), hr(), i, ic(), Jt(), lc(), nc() (+11 more)
+Cohesion: 0.19
+Nodes (13): addItem(), cc(), dt(), e(), Ho(), ma(), nc(), oc() (+5 more)
 
 ### Community 51 - "Community 51"
-Cohesion: 0.08
-Nodes (26): bs(), constructor(), di(), ds(), emit(), es(), fs(), getAllQueryCallbacks() (+18 more)
+Cohesion: 0.13
+Nodes (16): ds(), emit(), es(), fs(), getAllQueryCallbacks(), handleAndLogRequestError(), is(), isEmpty() (+8 more)
 
 ### Community 52 - "Community 52"
 Cohesion: 0.11
 Nodes (8): GetSubscriptionAction(), getSession(), globalForPrisma, MercadoPagoPreapprovalBody, authConfig, { handlers, auth, signIn, signOut }, { auth }, config
 
 ### Community 53 - "Community 53"
-Cohesion: 0.19
-Nodes (14): ap(), ft(), getURLAndAPIKey(), Gs(), hs(), ns(), Qs(), rt() (+6 more)
+Cohesion: 0.11
+Nodes (21): ap(), ft(), fu(), getURLAndAPIKey(), Gs(), hs(), indentedCurrentLine(), newLine() (+13 more)
 
 ### Community 54 - "Community 54"
-Cohesion: 0.11
-Nodes (25): ac(), bl(), cm(), Di(), dl(), eo(), Er(), es() (+17 more)
+Cohesion: 0.12
+Nodes (25): ac(), bl(), cn(), Di(), dl(), Er(), es(), fl() (+17 more)
 
 ### Community 55 - "Community 55"
-Cohesion: 0.09
-Nodes (26): ad(), constructor(), df(), Ft(), get(), getAllBatchQueryCallbacks(), getAllClientExtensions(), getAllComputedFields() (+18 more)
+Cohesion: 0.2
+Nodes (16): addMarginSymbol(), afterNextNewline(), getCurrentLineLength(), indent(), Pi(), setColor(), Ti(), underline() (+8 more)
 
 ### Community 56 - "Community 56"
 Cohesion: 0.1
@@ -434,16 +434,16 @@ Cohesion: 0.11
 Nodes (20): Account Model, AuthHeader Component, Auth Layout, Dashboard Page, GetSubscription Action, LemonSqueezy Webhook, Login Action, Login Page (+12 more)
 
 ### Community 58 - "Community 58"
-Cohesion: 0.12
-Nodes (20): au(), bi(), br(), bt(), ge(), gi(), h(), hi() (+12 more)
+Cohesion: 0.08
+Nodes (30): au(), bi(), br(), bt(), cs(), ge(), gi(), Gs() (+22 more)
 
 ### Community 59 - "Community 59"
-Cohesion: 0.13
-Nodes (16): Fr(), fu(), gp(), handleRequestError(), hn(), hp(), La(), Lr() (+8 more)
+Cohesion: 0.12
+Nodes (19): emit(), Fr(), gp(), handleAndLogRequestError(), handleRequestError(), hp(), Lr(), Ls() (+11 more)
 
 ### Community 60 - "Community 60"
-Cohesion: 0.18
-Nodes (14): Ba(), Dm(), indentedCurrentLine(), ji(), jn(), mm(), newLine(), r (+6 more)
+Cohesion: 0.12
+Nodes (19): Ba(), Dm(), ea(), ed(), highlight(), indentedCurrentLine(), isEmpty(), ji() (+11 more)
 
 ### Community 61 - "Community 61"
 Cohesion: 0.1
@@ -484,8 +484,8 @@ Cohesion: 0.11
 Nodes (17): AnyNull, Args, Config, Constructor, DbNull, Decimal, Exact, GetRuntimeOutput (+9 more)
 
 ### Community 65 - "Community 65"
-Cohesion: 0.16
-Nodes (15): get(), getAllBatchQueryCallbacks(), getAllClientExtensions(), getAllComputedFields(), getAllModelExtensions(), getAllQueryCallbacks(), getOrCreate(), getPrintWidth() (+7 more)
+Cohesion: 0.13
+Nodes (18): get(), getAllBatchQueryCallbacks(), getAllClientExtensions(), getAllComputedFields(), getAllModelExtensions(), getAllQueryCallbacks(), getOrCreate(), getPrintWidth() (+10 more)
 
 ### Community 66 - "Community 66"
 Cohesion: 0.11
@@ -512,16 +512,16 @@ Cohesion: 0.14
 Nodes (16): fromContent(), getLocation(), h(), hu(), is(), jc(), lineAt(), mapLineAt() (+8 more)
 
 ### Community 72 - "Community 72"
-Cohesion: 0.08
-Nodes (37): as(), ci(), Da(), di(), Do(), en(), fe(), fp() (+29 more)
+Cohesion: 0.14
+Nodes (21): append(), ci(), Do(), en(), fe(), fp(), gp(), gs() (+13 more)
 
 ### Community 73 - "Community 73"
-Cohesion: 0.24
-Nodes (10): cp(), dp(), gp(), Is(), ks(), Ms(), pp(), Pr() (+2 more)
+Cohesion: 0.09
+Nodes (30): at(), bn(), cp(), cs(), dp(), fn(), fp(), gf() (+22 more)
 
 ### Community 74 - "Community 74"
-Cohesion: 0.1
-Nodes (20): ap(), at(), bo(), Ds(), fs(), gn(), it(), Jn() (+12 more)
+Cohesion: 0.09
+Nodes (23): a(), ap(), at(), Ds(), Dt(), fs(), g(), ho() (+15 more)
 
 ### Community 75 - "Community 75"
 Cohesion: 0.13
@@ -584,8 +584,8 @@ Cohesion: 0.25
 Nodes (8): ./runtime/client, default, require, default, import, node, require, types
 
 ### Community 90 - "Community 90"
-Cohesion: 0.09
-Nodes (25): eu(), gr(), highlight(), hn(), indentedCurrentLine(), isEmpty(), jl(), jr() (+17 more)
+Cohesion: 0.16
+Nodes (15): eu(), gr(), highlight(), hn(), jl(), js(), Ln(), nt() (+7 more)
 
 ### Community 91 - "Community 91"
 Cohesion: 0.29
@@ -682,8 +682,8 @@ Cohesion: 0.08
 Nodes (25): Domain: Auth Pages Navigation, Domain: Environment Configuration, Domain: Password Change, Domain: Password Reset, Requirement: Authenticated Password Change, Requirement: Back Button on Auth Pages, Requirement: Forgot Password Request, Requirement: Resend API Key (+17 more)
 
 ### Community 141 - "Community 141"
-Cohesion: 0.25
-Nodes (9): emit(), handleAndLogRequestError(), Ls(), request(), requestBatch(), requestInternal(), transaction(), withRetry() (+1 more)
+Cohesion: 0.18
+Nodes (15): Da(), di(), he(), ka(), La(), Ll(), Na(), Ni() (+7 more)
 
 ### Community 142 - "Community 142"
 Cohesion: 0.12
@@ -694,8 +694,8 @@ Cohesion: 0.15
 Nodes (13): 3.1 Diagrama de capas (objetivo final), 3.2 Diseño del sistema de tokens, 3.3 Estrategia de tema claro/oscuro, 3.4 Estrategia de autenticación, 3.5 Modelo de datos (objetivo), 3.6 Sistema de planes, 3.7 Estado global, 3. Propuesta de Arquitectura (+5 more)
 
 ### Community 144 - "Community 144"
-Cohesion: 0.06
-Nodes (49): $(), Al(), allocUnsafeSlow(), Bi(), bn(), byteLength(), Co(), construct() (+41 more)
+Cohesion: 0.07
+Nodes (47): $(), Al(), allocUnsafeSlow(), Bi(), bn(), byteLength(), Co(), construct() (+39 more)
 
 ### Community 145 - "Community 145"
 Cohesion: 0.2
@@ -718,37 +718,37 @@ Cohesion: 0.29
 Nodes (6): 1.1 Stack actual, 1. Análisis Técnico del Estado Actual, 🚀 Plan de Evolución — Password Generator, 📝 Registro de Progreso, 📊 Resumen de Fases, 📑 Índice
 
 ### Community 150 - "Community 150"
-Cohesion: 0.4
-Nodes (4): code:bash (npm run dev), Deploy on Vercel, Getting Started, Learn More
+Cohesion: 0.1
+Nodes (20): Arquitectura, Autenticación, code:block1 (app/), code:bash (npm install), Cómo funciona, Deploy, Documentación del repo, Flujo principal (+12 more)
 
 ### Community 151 - "Community 151"
 Cohesion: 0.5
 Nodes (4): 2. Riesgos Reales y Decisiones Peligrosas, 🔴 Riesgos altos, 🟢 Riesgos bajos, 🟡 Riesgos medios
 
 ### Community 153 - "Community 153"
-Cohesion: 0.22
-Nodes (11): be(), e(), ji(), Ka(), ks(), _l(), lo(), Lr() (+3 more)
+Cohesion: 0.18
+Nodes (13): be(), e(), getGlobalOmit(), ji(), Ka(), ks(), _l(), lo() (+5 more)
 
 ### Community 155 - "Community 155"
 Cohesion: 0.22
 Nodes (10): alloc(), allocUnsafe(), constructor(), fi(), fill(), _getName(), _getNamespace(), mn() (+2 more)
 
 ## Knowledge Gaps
-- **1521 isolated node(s):** `PLAN_FEATURES`, `config`, `buildCommand`, `outputDirectory`, `installCommand` (+1516 more)
+- **1534 isolated node(s):** `Qué es`, `Por qué existe`, `Flujo principal`, `Autenticación`, `Recuperación de contraseña` (+1529 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **23 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `C()` connect `Community 8` to `Community 2`, `Community 17`, `Community 53`, `Community 55`, `Community 90`?**
-  _High betweenness centrality (0.211) - this node is a cross-community bridge._
-- **Why does `$o()` connect `Community 35` to `Community 32`, `Community 5`, `Community 10`, `Community 46`, `Community 23`, `Community 24`, `Community 59`, `Community 29`?**
-  _High betweenness centrality (0.123) - this node is a cross-community bridge._
-- **Why does `js()` connect `Community 90` to `Community 8`, `Community 43`, `Community 4`?**
-  _High betweenness centrality (0.088) - this node is a cross-community bridge._
-- **What connects `PLAN_FEATURES`, `config`, `buildCommand` to the rest of the system?**
-  _1521 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `C()` connect `Community 8` to `Community 2`, `Community 17`, `Community 53`, `Community 22`, `Community 90`?**
+  _High betweenness centrality (0.196) - this node is a cross-community bridge._
+- **Why does `$o()` connect `Community 35` to `Community 32`, `Community 5`, `Community 40`, `Community 10`, `Community 46`, `Community 23`, `Community 24`, `Community 29`?**
+  _High betweenness centrality (0.124) - this node is a cross-community bridge._
+- **Why does `js()` connect `Community 90` to `Community 8`, `Community 74`, `Community 43`, `Community 4`?**
+  _High betweenness centrality (0.090) - this node is a cross-community bridge._
+- **What connects `Qué es`, `Por qué existe`, `Flujo principal` to the rest of the system?**
+  _1534 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.0 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
