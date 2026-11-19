@@ -14,6 +14,34 @@ import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import AuthHeader from "../(dashboard)/_components/auth-header";
+import type { Metadata } from "next";
+import {
+  buildSocialMetadata,
+  buildSoftwareApplicationJsonLd,
+  serializeJsonLd,
+} from "@/lib/seo";
+
+const TITLE = "Planes y precios";
+
+const DESCRIPTION =
+  "Planes de IronKey: empieza gratis y escala cuando lo necesites. Precios en USD con pago mensual.";
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: "/pricing",
+  },
+  ...buildSocialMetadata({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: "/pricing",
+  }),
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 const PLAN_FEATURES: Record<string, string[]> = {
   free: [
@@ -51,8 +79,22 @@ export default async function PricingPage() {
 
   const currentPlanName = userSubscription?.plan.name ?? null;
 
+  const softwareApplicationJsonLd = buildSoftwareApplicationJsonLd(
+    plans.map((plan) => ({
+      name: plan.name,
+      displayName: plan.displayName,
+      price: plan.price,
+    }))
+  );
+
   return (
     <div className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: serializeJsonLd(softwareApplicationJsonLd),
+        }}
+      />
       <div className="max-w-4xl mx-auto px-4">
         <header className="flex items-center justify-between py-4">
           <Link
