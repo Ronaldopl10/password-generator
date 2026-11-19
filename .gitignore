@@ -54,3 +54,5 @@ graphify-out/
 openspec/
 .opencode/
 .atl/
+# Backups locales de la base de produccion (contienen datos cifrados y emails: NUNCA commitear)
+backups/
