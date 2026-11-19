@@ -70,7 +70,6 @@ Los tres planes se siembran en la base (`prisma/seed.ts`) y `/pricing` los lee c
 - **Mercado Pago (COP)**: `POST /api/mercadopago/create-preference` crea una *preapproval* recurrente. Los importes en COP están fijos en el código, equivalentes a los precios USD de la tabla.
 - **Webhook**: `POST /api/webhooks/mercadopago` actualiza la `Subscription` cuando recibe un evento `preapproval` con estado `authorized`, usando `external_reference` (userId) y `reason` (nombre del plan).
 - **Dodo Payments (USD)**: solo están los logos en `public/` y un aviso en `/pricing`. El checkout, la suscripción y su webhook están pendientes de que aprueben la cuenta.
-- `POST /api/webhooks/lemonsqueezy` es una ruta muerta: el checkout de Lemon Squeezy se retiró y ya no se usa.
 
 ### Páginas legales
 
@@ -92,6 +91,7 @@ Contacto en las tres: `contacto@ronaldopl.com`.
 - Aislamiento por `userId` en cada consulta, con `onDelete: Cascade` en la base.
 - Hash de credenciales con bcrypt, 12 rondas.
 - Tokens de reset aleatorios, de un solo uso y con expiración de 1 hora.
+- El generador usa un PRNG criptográficamente seguro (`crypto.getRandomValues`), con muestreo uniforme sin sesgo de módulo.
 - El navegador nunca recibe `ENCRYPTION_KEY`.
 
 **No:**
@@ -110,6 +110,7 @@ app/pricing/     planes y checkout
 app/api/         Auth.js, preapproval de Mercado Pago y webhooks
 components/      UI (shadcn/ui) y componentes legales
 lib/             cripto, prisma, generación, email, sesión y límite de plan
+lib/*.test.ts    tests unitarios (generador y límite de plan), con Vitest
 schema/          esquemas Zod (auth, password)
 prisma/          schema.prisma, migraciones y seed
 proxy.ts         middleware de Auth.js
@@ -119,14 +120,10 @@ Las capas van de arriba hacia abajo: **UI** (`components/`, `app/`) → **Server
 
 ### Limitaciones conocidas
 
-1. **No hay runner de tests.** La verificación del proyecto es `npx tsc --noEmit` más revisión manual de rutas.
-2. `generatePassword()` usa `Math.random()`, que no es criptográficamente seguro.
-3. El webhook de Mercado Pago **no valida la firma `x-signature`**: la validación está comentada en el código.
-4. `PasswordResetToken` **no tiene migración formal** en `prisma/migrations/`; en una base creada solo con `migrate deploy` esa tabla falta.
-5. El checkout de Dodo Payments no está implementado (botón, suscripción y webhook).
-6. `/api/webhooks/lemonsqueezy` quedó sin uso desde que se retiró ese checkout.
-7. No hay búsqueda ni filtrado del vault, ni expiración de contraseñas (`expiresAt`).
-8. `prisma/dev.db` es un resto de una versión SQLite anterior: el datasource actual es `postgresql`.
+1. El webhook de Mercado Pago **no valida la firma `x-signature`**: la validación está comentada en el código.
+2. `PasswordResetToken` **no tiene migración formal** en `prisma/migrations/`; en una base creada solo con `migrate deploy` esa tabla falta.
+3. El checkout de Dodo Payments no está implementado (botón, suscripción y webhook).
+4. No hay búsqueda ni filtrado del vault, ni expiración de contraseñas (`expiresAt`).
 
 ## Dónde se utiliza
 
@@ -185,6 +182,7 @@ Las que el código lee explícitamente:
 | `npm run build` | `prisma generate && next build` |
 | `npm run start` | Sirve el build de producción |
 | `npm run lint` | ESLint (`next lint`) |
+| `npm test` | Tests unitarios (Vitest, `vitest run`) |
 | `npx prisma generate` | Genera el cliente en `generated/prisma` |
 | `npx prisma migrate deploy` | Aplica las migraciones |
 | `npx prisma db push` | Sincroniza el schema sin migraciones (desarrollo) |
