@@ -3,13 +3,15 @@ import PasswordLists from "./_components/password-lists";
 import AuthHeader from "./_components/auth-header";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { auth } from "@/auth";
+import { SiteFooter } from "@/components/legal/site-footer";
 
 const DashboardPage = async () => {
   const session = await auth();
   const isAuthenticated = !!session?.user?.id;
 
   return (
-    <div className="max-w-2xl mx-auto px-4">
+    <>
+      <div className="max-w-2xl mx-auto px-4">
       <header className="flex items-center justify-between py-4">
         <div className="flex items-center gap-3">
           <svg viewBox="0 0 100 100" className="size-12 text-primary shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +41,9 @@ const DashboardPage = async () => {
       </p>
       <FormCreatePassword isAuthenticated={isAuthenticated} />
       <PasswordLists isAuthenticated={isAuthenticated} />
-    </div>
+      </div>
+      <SiteFooter />
+    </>
   );
 };
 export default DashboardPage;

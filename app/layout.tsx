@@ -3,8 +3,9 @@ import "./globals.css";
 import ThemeProvider from "./theme-providers";
 
 export const metadata: Metadata = {
-  title: "Password Generator",
-  description: "Generador y gestor de contraseñas seguras",
+  title: "IronKey",
+  description:
+    "Secure password generator and encrypted vault for your passwords.",
 };
 
 export default function RootLayout({
