@@ -4,6 +4,30 @@ import AuthHeader from "./_components/auth-header";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { auth } from "@/auth";
 import { SiteFooter } from "@/components/legal/site-footer";
+import type { Metadata } from "next";
+import { buildSocialMetadata } from "@/lib/seo";
+
+const TITLE = "Generador de contraseñas y bóveda cifrada";
+
+const DESCRIPTION =
+  "Crea contraseñas seguras y personalizadas, y guárdalas cifradas en tu bóveda de IronKey.";
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  ...buildSocialMetadata({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: "/",
+  }),
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 const DashboardPage = async () => {
   const session = await auth();

@@ -1,10 +1,27 @@
 import type { Metadata } from "next";
 import { LegalDocument } from "@/components/legal/legal-document";
+import { buildSocialMetadata } from "@/lib/seo";
+
+const TITLE = "Refund Policy";
+
+const DESCRIPTION =
+  "The IronKey refund terms: when a refund applies, how to request one, and what happens to your vault when you cancel.";
 
 export const metadata: Metadata = {
-  title: "Refund Policy — IronKey",
-  description:
-    "The IronKey refund terms: when a refund applies, how to request one, and what happens to your vault when you cancel.",
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: "/refund",
+  },
+  ...buildSocialMetadata({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: "/refund",
+  }),
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const UPDATED = "November 19, 2026";

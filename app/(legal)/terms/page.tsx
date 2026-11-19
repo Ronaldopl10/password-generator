@@ -1,10 +1,27 @@
 import type { Metadata } from "next";
 import { LegalDocument } from "@/components/legal/legal-document";
+import { buildSocialMetadata } from "@/lib/seo";
+
+const TITLE = "Terms of Service";
+
+const DESCRIPTION =
+  "The terms that govern the use of IronKey: plans, subscriptions, renewal, cancellation, acceptable use, liability and governing law.";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — IronKey",
-  description:
-    "The terms that govern the use of IronKey: plans, subscriptions, renewal, cancellation, acceptable use, liability and governing law.",
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: "/terms",
+  },
+  ...buildSocialMetadata({
+    title: TITLE,
+    description: DESCRIPTION,
+    path: "/terms",
+  }),
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const UPDATED = "November 19, 2026";
