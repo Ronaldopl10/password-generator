@@ -13,8 +13,8 @@ export async function POST(req: NextRequest) {
 
   // Precios en COP equivalentes a USD (1 USD ≈ 4,200 COP — ajusta si cambia el tipo de cambio)
   const PLAN_PRICES: Record<string, { amount: number; label: string }> = {
-    starter: { amount: 12600, label: "PassGen Starter - $2.99 USD/mes" },  // $2.99 USD
-    pro:     { amount: 41960, label: "PassGen Pro+ - $9.99 USD/mes" },      // $9.99 USD
+    starter: { amount: 12600, label: "IronKey Starter - $2.99 USD/month" },  // $2.99 USD
+    pro:     { amount: 41960, label: "IronKey Pro+ - $9.99 USD/month" },      // $9.99 USD
   };
 
   const planData = PLAN_PRICES[planName];

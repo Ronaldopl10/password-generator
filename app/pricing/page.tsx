@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { MercadoPagoCheckout } from "@/components/ui/mercadopago-checkout";
-import { LemonSqueezyCheckout } from "@/components/ui/lemonsqueezy-checkout";
+import { SiteFooter } from "@/components/legal/site-footer";
 import {
   Card,
   CardContent,
@@ -10,28 +10,26 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { CheckIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import AuthHeader from "../(dashboard)/_components/auth-header";
 
 const PLAN_FEATURES: Record<string, string[]> = {
   free: [
-    "Hasta 5 contraseñas guardadas",
     "Generador de contraseñas ilimitado",
-    "Cifrado AES de extremo a extremo",
+    "Cifrado AES en el servidor",
     "Copia al portapapeles",
   ],
   starter: [
-    "Hasta 15 contraseñas guardadas",
     "Generador de contraseñas ilimitado",
-    "Cifrado AES de extremo a extremo",
+    "Cifrado AES en el servidor",
     "Copia al portapapeles",
     "Soporte por email",
   ],
   pro: [
-    "Contraseñas ilimitadas",
     "Generador de contraseñas ilimitado",
-    "Cifrado AES de extremo a extremo",
+    "Cifrado AES en el servidor",
     "Copia al portapapeles",
     "Soporte prioritario",
     "Acceso anticipado a nuevas features",
@@ -237,16 +235,18 @@ export default async function PricingPage() {
                           email={session?.user?.email ?? undefined}
                           loginRedirect="/login?callbackUrl=/pricing"
                         />
-                        <LemonSqueezyCheckout
-                          variantId={
-                            plan.name === "starter"
-                              ? (process.env.LS_STARTER_VARIANT_ID ?? "")
-                              : (process.env.LS_PRO_VARIANT_ID ?? "")
-                          }
-                          email={session?.user?.email ?? undefined}
-                          userId={session?.user?.id ?? undefined}
-                          loginRedirect="/login?callbackUrl=/pricing"
-                        />
+                        <div className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md border border-dashed border-border text-muted-foreground text-xs">
+                          <Image
+                            src="/dodo-payments.svg"
+                            alt="Dodo Payments"
+                            width={18}
+                            height={18}
+                            style={{ width: 18, height: 18 }}
+                          />
+                          <span>
+                            Dodo Payments — tarjetas internacionales, próximamente
+                          </span>
+                        </div>
                       </div>
                     )}
                   </CardFooter>
@@ -257,8 +257,8 @@ export default async function PricingPage() {
 
           <section className="text-center text-sm text-muted-foreground space-y-1">
             <p>
-              Paga con Mercado Pago (Colombia) o Lemon Squeezy (tarjeta
-              internacional).
+              Paga con Mercado Pago (Colombia). Tarjetas internacionales:
+              Dodo Payments (próximamente).
             </p>
             <p>
               <Link href="/" className="text-primary hover:underline">
@@ -268,6 +268,7 @@ export default async function PricingPage() {
           </section>
         </main>
       </div>
+      <SiteFooter />
     </div>
   );
 }

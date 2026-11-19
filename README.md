@@ -20,7 +20,7 @@ Tres decisiones que definen el proyecto:
 
 1. **El vault es del usuario, no del navegador.** Los passwords guardados viven en una base de datos con una fila por usuario (`Password.userId` con `onDelete: Cascade`). Nada se comparte entre cuentas.
 2. **El cifrado es real, del lado del servidor.** Cada contraseña se guarda como `encryptedPassword` (AES vía Cryptr) usando `ENCRYPTION_KEY`. El servidor descifra para mostrarla y volver a cifrarla; el texto plano nunca se escribe en la base.
-3. **Cobra en la moneda del usuario.** Mercado Pago en pesos colombianos para el mercado local y Lemon Squeezy en dólares para el resto. Los límites de guardado salen de la tabla `Plan`, no de constantes en el código.
+3. **Cobra en la moneda del usuario.** Mercado Pago en pesos colombianos para el mercado local y Dodo Payments en dólares para el mercado internacional (integración en curso). Los límites de guardado salen de la tabla `Plan`, no de constantes en el código.
 
 ## Cómo funciona
 
@@ -56,10 +56,22 @@ Los tres planes se siembran en la base (`prisma/seed.ts`) y la página `/pricing
 | Pro+ | ilimitado (`maxPasswords = -1`) | 9.99 USD | 9.99 USD |
 
 - **Mercado Pago** (COP): `POST /api/mercadopago/create-preference` crea una *preapproval* con importes en centavos (`starter` 12600, `pro` 41960).
-- **Lemon Squeezy** (USD): redirect al checkout del store con `checkout[email]` y `checkout[custom][user_id]`.
-- **Webhooks**: `/api/webhooks/mercadopago` (eventos de suscripción) y `/api/webhooks/lemonsqueezy` (`x-lsz-event: order_created`) actualizan la `Subscription`.
+- **Dodo Payments** (USD): checkout internacional pendiente de la aprobación de la cuenta. El logo ya está en `public/dodo-payments.svg` y el botón se agrega en `/pricing` cuando cierren la revisión de compliance.
+- **Webhooks**: `/api/webhooks/mercadopago` (eventos de suscripción) actualiza la `Subscription`. Quedó el webhook legacy `/api/webhooks/lemonsqueezy`, sin uso desde que se sacó el checkout de Lemon Squeezy: se puede borrar en el próximo cleanup.
 
-> Los pagos están en **modo test**: las cuentas de Mercado Pago y Lemon Squeezy todavía no fueron aprobadas, así que la suscripción no se activa de verdad. Ver [Limitaciones conocidas](#limitaciones-conocidas-y-deuda-técnica).
+> Los pagos están en **modo test**: las cuentas de Mercado Pago y Dodo Payments todavía no fueron aprobadas, así que la suscripción no se activa de verdad. Ver [Limitaciones conocidas](#limitaciones-conocidas-y-deuda-técnica).
+
+### Páginas legales
+
+Las tres son públicas (no piden login) y están en inglés, que es lo que revisan las pasarelas internacionales:
+
+| Ruta | Qué es |
+|------|--------|
+| `/privacy` | Qué datos guardamos, quién los procesa, cuánto tiempo los retenemos y por qué **no** hay cifrado de extremo a extremo |
+| `/terms` | Vendedor legal, planes, suscripción y renovación, cancelación, uso aceptable, límites de responsabilidad y ley aplicable |
+| `/refund` | Ventana de reembolso, cómo se pide, reembolsos parciales y qué pasa con el vault al cancelar |
+
+Contacto en las tres: `contacto@ronaldopl.com`.
 
 ## Stack
 
@@ -74,7 +86,7 @@ Los tres planes se siembran en la base (`prisma/seed.ts`) y la página `/pricing
 | Datos cliente | TanStack React Query 5 |
 | Notificaciones | Sonner (toasts) |
 | Email | Resend |
-| Pagos | Mercado Pago (COP) + Lemon Squeezy (USD) |
+| Pagos | Mercado Pago (COP) + Dodo Payments (USD, en curso) |
 
 ## Qué puede hacer el usuario
 
@@ -92,8 +104,9 @@ Los tres planes se siembran en la base (`prisma/seed.ts`) y la página `/pricing
 app/
 ├── (auth)/          # login, register, forgot-password, reset-password + sus Server Actions
 ├── (dashboard)/     # panel: generador, vault, acciones y componentes de UI
+├── (legal)/         # privacy, terms, refund (públicas, sin login)
 ├── pricing/         # planes + checkout
-└── api/             # auth, mercadopago/create-preference, webhooks MP y LS
+└── api/             # auth, mercadopago/create-preference, webhooks MP
 components/ui/       # shadcn/ui + botones de checkout
 lib/                 # cripto, prisma, password, email, sesión, límite de plan
 schema/              # esquemas Zod (auth, password)
@@ -135,7 +148,7 @@ Las que el código lee explícitamente:
 | `MP_ACCESS_TOKEN` | Token de la API de Mercado Pago |
 | `MP_BACK_URL` | URL HTTPS de retorno del checkout (MP la exige) |
 
-El resto (credenciales de Lemon Squeezy, flags de Vercel) está en `.env.example` y en el panel de Vercel. `.env` nunca se versiona.
+El resto (credenciales de Dodo Payments, flags de Vercel) está en `.env.example` y en el panel de Vercel. `.env` nunca se versiona.
 
 ## Deploy
 
@@ -169,10 +182,12 @@ En Vercel hay que setear las mismas variables de entorno de la tabla anterior. L
 2. `generatePassword()` usa `Math.random()`, que no es criptográficamente seguro. Para un generador de uso personal es aceptable; para una app de passwords, `crypto.getRandomValues()` es lo correcto.
 3. El webhook de Mercado Pago **no valida la firma `x-signature`** (la validación está comentada).
 4. `PasswordResetToken` se aplicó en Neon con `prisma db push`: **no hay migración formal** en `prisma/migrations/` para ese modelo.
-5. El copy de la página de precios dice "Hasta 5 / Hasta 15 contraseñas guardadas" mientras los límites reales del seed son **18 y 40**. Desincronizado.
-6. `app/layout.tsx` todavía tiene `title: "Password Generator"` — debería decir IronKey.
-7. Quedó el nombre viejo en dos lugares: las labels de Mercado Pago (`"PassGen Starter - $2.99 USD/mes"`) y el slug del store de Lemon Squeezy (`passgen.lemonsqueezy.com`).
+5. **Resuelto**: el copy de precios ya no hardcodea límites (decía 5 / 15 contra los reales 18 / 40); ahora el límite se muestra desde la tabla `Plan` (`maxPasswords`) y el bullet de cifrado dice "AES en el servidor" (la app **no** usa cifrado de extremo a extremo).
+6. El checkout de **Dodo Payments** (USD, internacional) todavía no está implementado: falta el botón en `/pricing`, la creación de la suscripción y el webhook, a la espera de que aprueben la cuenta.
+7. El webhook `/api/webhooks/lemonsqueezy` quedó sin uso desde que se sacó el checkout de Lemon Squeezy (dejó de aceptar tiendas el 16-nov-2026): se puede borrar.
 8. No hay búsqueda ni filtrado del vault, ni expiración de contraseñas (`expiresAt`).
+9. **Resuelto**: se eliminaron de `public/` los 7 assets derivados de la máscara de Iron Man (Marvel) — `marvel-ironman-mask.svg`, `ironkey-mask.svg`, `guia-iron-mask.svg`, `Ironman+key.png`, `Ironman-mask.png`, `ironman-mask-2.jpg` e `ironman-mascara-como-debe-quedar+los-textos.png`. La app nunca los usó (verificado) y `public/` se sirve públicamente: era IP de terceros en un repo comercial. El sitio usa el logo `public/ironkey-shield.svg`.
+10. **Resuelto**: el owner confirmó que el operador es la persona natural **Ronaldo Pérez Lezama** y que la ley aplicable es la de Colombia, ya reflejados en `/terms` §1 y §13.
 
 ## Documentación del repo
 
@@ -191,8 +206,8 @@ En Vercel hay que setear las mismas variables de entorno de la tabla anterior. L
 
 Corto plazo:
 - [ ] Comprar `ironkey.dev` y verificarlo en Resend (cambiar el `from` del email).
-- [ ] Aprobación de las cuentas de Mercado Pago y Lemon Squeezy → credenciales de producción.
-- [ ] Corregir el copy de precios (5/15 → 18/40) y el `title` del layout.
+- [ ] Aprobación de las cuentas de Mercado Pago y Dodo Payments → credenciales de producción.
+- [x] Corregir el copy de precios (5/15 → 18/40) y el `title` del layout.
 - [ ] Migración formal de `PasswordResetToken`.
 - [ ] Buscar/filtrar contraseñas y expiración (`expiresAt`).
 
@@ -200,7 +215,7 @@ Medio plazo:
 - [ ] Suite de tests (empezando por `lib/password.ts` y `validate-plan-limit.ts`).
 - [ ] Invalidar sesiones al cambiar la contraseña.
 - [ ] `crypto.getRandomValues()` en el generador y validación de firma en el webhook de MP.
-- [ ] Migración del slug de Lemon Squeezy a la marca.
+- [ ] Checkout de Dodo Payments (botón en `/pricing` + webhook) cuando aprueben la cuenta.
 
 ---
 
