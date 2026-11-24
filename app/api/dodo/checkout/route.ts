@@ -29,6 +29,33 @@ const checkoutBodySchema = z.object({
 
 const LOG_PREFIX = "[dodo checkout]";
 
+/**
+ * Cuánto dura el lock de checkout. Es la red de seguridad si el proceso muere
+ * en medio de la llamada a Dodo: pasado ese plazo el usuario puede reintentar.
+ */
+const CHECKOUT_LOCK_MS = 60_000;
+
+/**
+ * Suelta el lock tomado por esta petición.
+ *
+ * La condición por `lockUntil` evita soltar el lock de otra petición que ya lo
+ * tomó después de que venciera el nuestro. No se propaga el error: el TTL de
+ * 60 s libera igual, y una respuesta ya armada no se rompe por esto.
+ */
+async function releaseCheckoutLock(userId: string, lockUntil: Date): Promise<void> {
+  try {
+    await prisma.subscription.updateMany({
+      where: { userId, checkoutLockUntil: lockUntil },
+      data: { checkoutLockUntil: null },
+    });
+  } catch (error) {
+    console.error(`${LOG_PREFIX} could not release checkout lock`, {
+      userId,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  }
+}
+
 /** Base pública del sitio, igual que en el checkout de Mercado Pago. */
 function resolveBaseUrl(req: NextRequest): string {
   const configured = (process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "").trim();
@@ -114,16 +141,70 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "already_subscribed" }, { status: 409 });
   }
 
-  let productId: string | null;
-  let products: DodoProducts;
+  // Claim atómico: dos POST concurrentes no pueden crear dos sesiones de
+  // checkout. La guardia de arriba leyó el estado, pero entre esa lectura y la
+  // creación de la sesión pasa el tiempo suficiente para que otra petición
+  // entre; este `updateMany` es la decisión única de quién sigue. La condición
+  // deja pasar sólo si el lock está libre o vencido.
+  const claimedAt = new Date();
+  const lockUntil = new Date(claimedAt.getTime() + CHECKOUT_LOCK_MS);
 
   try {
-    ({ products } = readDodoConfig());
+    const claim = await prisma.subscription.updateMany({
+      where: {
+        userId,
+        OR: [{ checkoutLockUntil: null }, { checkoutLockUntil: { lt: claimedAt } }],
+      },
+      data: { checkoutLockUntil: lockUntil },
+    });
+
+    if (claim.count === 0) {
+      // Otro checkout en curso para este usuario: no se llama a Dodo.
+      return NextResponse.json(
+        { error: "checkout_in_progress" },
+        { status: 409 }
+      );
+    }
   } catch (error) {
-    if (error instanceof DodoConfigError) {
-      // Nunca se loguea el valor de las variables: sólo las que faltan.
-      console.error(`${LOG_PREFIX} Dodo is not configured`, {
-        issues: error.issues,
+    console.error(`${LOG_PREFIX} could not claim checkout lock`, {
+      userId,
+      planId: plan.id,
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return NextResponse.json({ error: "checkout_failed" }, { status: 502 });
+  }
+
+  // Desde acá el lock está tomado: toda salida tiene que soltarlo.
+  try {
+    let productId: string | null;
+    let products: DodoProducts;
+
+    try {
+      ({ products } = readDodoConfig());
+    } catch (error) {
+      if (error instanceof DodoConfigError) {
+        // Nunca se loguea el valor de las variables: sólo las que faltan.
+        console.error(`${LOG_PREFIX} Dodo is not configured`, {
+          issues: error.issues,
+        });
+        return NextResponse.json(
+          { error: "billing_not_configured" },
+          { status: 503 }
+        );
+      }
+
+      throw error;
+    }
+
+    try {
+      productId = getProductIdForPlan(plan.name, products);
+    } catch (error) {
+      // Un plan sin producto de Dodo es un problema de configuración, no del
+      // usuario: se responde igual que una config incompleta.
+      console.error(`${LOG_PREFIX} no Dodo product for plan`, {
+        planId: plan.id,
+        planName: plan.name,
+        reason: error instanceof Error ? error.message : String(error),
       });
       return NextResponse.json(
         { error: "billing_not_configured" },
@@ -131,68 +212,52 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    throw error;
-  }
-
-  try {
-    productId = getProductIdForPlan(plan.name, products);
-  } catch (error) {
-    // Un plan sin producto de Dodo es un problema de configuración, no del
-    // usuario: se responde igual que una config incompleta.
-    console.error(`${LOG_PREFIX} no Dodo product for plan`, {
-      planId: plan.id,
-      planName: plan.name,
-      reason: error instanceof Error ? error.message : String(error),
-    });
-    return NextResponse.json(
-      { error: "billing_not_configured" },
-      { status: 503 }
-    );
-  }
-
-  if (productId === null) {
-    // Inalcanzable en la práctica: el plan free ya se rechazó por precio.
-    console.error(`${LOG_PREFIX} plan has no purchasable product`, {
-      planId: plan.id,
-      planName: plan.name,
-    });
-    return NextResponse.json({ error: "free_plan" }, { status: 400 });
-  }
-
-  const baseUrl = resolveBaseUrl(req);
-  const metadata = buildCheckoutMetadata({
-    userId,
-    planId: plan.id,
-    planName: plan.name,
-  });
-
-  try {
-    const checkout = await getDodoClient().checkoutSessions.create({
-      product_cart: [{ product_id: productId, quantity: 1 }],
-      customer: { email, name },
-      metadata,
-      return_url: `${baseUrl}/dashboard?checkout=success`,
-      cancel_url: `${baseUrl}/pricing?checkout=cancelled`,
-    });
-
-    if (!checkout.checkout_url) {
-      console.error(`${LOG_PREFIX} Dodo returned no checkout_url`, {
-        sessionId: checkout.session_id,
+    if (productId === null) {
+      // Inalcanzable en la práctica: el plan free ya se rechazó por precio.
+      console.error(`${LOG_PREFIX} plan has no purchasable product`, {
         planId: plan.id,
+        planName: plan.name,
       });
-      return NextResponse.json(
-        { error: "checkout_unavailable" },
-        { status: 502 }
-      );
+      return NextResponse.json({ error: "free_plan" }, { status: 400 });
     }
 
-    return NextResponse.json({ url: checkout.checkout_url }, { status: 200 });
-  } catch (error) {
-    // El cuerpo del error del proveedor se queda del lado del servidor.
-    console.error(`${LOG_PREFIX} Dodo checkout session failed`, {
+    const baseUrl = resolveBaseUrl(req);
+    const metadata = buildCheckoutMetadata({
+      userId,
       planId: plan.id,
-      message: error instanceof Error ? error.message : String(error),
+      planName: plan.name,
     });
-    return NextResponse.json({ error: "checkout_failed" }, { status: 502 });
+
+    try {
+      const checkout = await getDodoClient().checkoutSessions.create({
+        product_cart: [{ product_id: productId, quantity: 1 }],
+        customer: { email, name },
+        metadata,
+        return_url: `${baseUrl}/dashboard?checkout=success`,
+        cancel_url: `${baseUrl}/pricing?checkout=cancelled`,
+      });
+
+      if (!checkout.checkout_url) {
+        console.error(`${LOG_PREFIX} Dodo returned no checkout_url`, {
+          sessionId: checkout.session_id,
+          planId: plan.id,
+        });
+        return NextResponse.json(
+          { error: "checkout_unavailable" },
+          { status: 502 }
+        );
+      }
+
+      return NextResponse.json({ url: checkout.checkout_url }, { status: 200 });
+    } catch (error) {
+      // El cuerpo del error del proveedor se queda del lado del servidor.
+      console.error(`${LOG_PREFIX} Dodo checkout session failed`, {
+        planId: plan.id,
+        message: error instanceof Error ? error.message : String(error),
+      });
+      return NextResponse.json({ error: "checkout_failed" }, { status: 502 });
+    }
+  } finally {
+    await releaseCheckoutLock(userId, lockUntil);
   }
 }

@@ -13,6 +13,8 @@ ALTER TABLE "Subscription" ADD COLUMN IF NOT EXISTS "externalId" TEXT;
 ALTER TABLE "Subscription" ADD COLUMN IF NOT EXISTS "currentPeriodEnd" TIMESTAMP(3);
 ALTER TABLE "Subscription" ADD COLUMN IF NOT EXISTS "cancelAtPeriodEnd" BOOLEAN NOT NULL DEFAULT false;
 ALTER TABLE "Subscription" ADD COLUMN IF NOT EXISTS "lastEventAt" TIMESTAMP(3);
+-- Mutex corto del checkout en curso (lo suelta la ruta o el webhook aplicado)
+ALTER TABLE "Subscription" ADD COLUMN IF NOT EXISTS "checkoutLockUntil" TIMESTAMP(3);
 
 -- CreateTable: cola durable de webhooks
 CREATE TABLE IF NOT EXISTS "BillingWebhookEvent" (

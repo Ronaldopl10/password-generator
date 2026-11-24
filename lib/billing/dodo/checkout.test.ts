@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { buildCheckoutMetadata, decideCheckoutAccess } from "@/lib/billing/dodo/checkout";
+import type { CheckoutSubscriptionInput } from "@/lib/billing/dodo/checkout";
 
 const NOW = new Date("2026-11-22T12:00:00.000Z");
 
@@ -8,12 +9,18 @@ const paidPlan = { price: 2.99 };
 const future = new Date("2026-12-22T12:00:00.000Z");
 const past = new Date("2026-10-22T12:00:00.000Z");
 
-/** Suscripción de Dodo en el estado dado; el fin de período es explícito. */
-function dodo(
+/** Suscripción en el estado dado, con la pasarela y el fin de período explícitos. */
+function sub(
+  provider: string | null,
   status: string,
   currentPeriodEnd: Date | null
-): { provider: string; status: string; currentPeriodEnd: Date | null } {
-  return { provider: "dodo", status, currentPeriodEnd };
+): CheckoutSubscriptionInput {
+  return { provider, status, currentPeriodEnd };
+}
+
+/** Suscripción de Dodo en el estado dado; el fin de período es explícito. */
+function dodo(status: string, currentPeriodEnd: Date | null): CheckoutSubscriptionInput {
+  return sub("dodo", status, currentPeriodEnd);
 }
 
 describe("decisión de checkout de Dodo", () => {
@@ -102,23 +109,42 @@ describe("decisión de checkout de Dodo", () => {
     }
   });
 
-  it("ignora una suscripción de Mercado Pago: migrar tiene que poder pagar", () => {
+  // F3: la fila `Subscription` es única por usuario, así que un checkout de
+  // Dodo sobre una suscripción de Mercado Pago vigente el webhook la pisaría:
+  // doble cobro y entitlement perdido. Migrar es una decisión explícita.
+  it("rechaza una suscripción activa de Mercado Pago: migrar no puede pisar el plan", () => {
     expect(
-      decideCheckoutAccess(
-        paidPlan,
-        { provider: "mercadopago", status: "active", currentPeriodEnd: future },
-        NOW
-      )
-    ).toEqual({ allowed: true });
+      decideCheckoutAccess(paidPlan, sub("mercadopago", "active", future), NOW)
+    ).toEqual({ allowed: false, reason: "already_subscribed" });
   });
 
-  it("ignora una suscripción sin provider aunque tenga período vigente", () => {
+  it("rechaza una suscripción en mora de Mercado Pago", () => {
     expect(
-      decideCheckoutAccess(
-        paidPlan,
-        { provider: null, status: "active", currentPeriodEnd: future },
-        NOW
-      )
+      decideCheckoutAccess(paidPlan, sub("mercadopago", "past_due", future), NOW)
+    ).toEqual({ allowed: false, reason: "already_subscribed" });
+  });
+
+  it("rechaza una suscripción vigente sin provider: cualquier acceso pago bloquea", () => {
+    expect(decideCheckoutAccess(paidPlan, sub(null, "active", future), NOW)).toEqual({
+      allowed: false,
+      reason: "already_subscribed",
+    });
+  });
+
+  // El otro lado de la regla: sin acceso pago vigente, cualquier pasarela deja
+  // pagar. Si no, un usuario de Mercado Pago vencido quedaría sin checkout.
+  it("permite pagar con una suscripción de Mercado Pago ya vencida", () => {
+    for (const status of ["expired", "refunded", "on_hold"]) {
+      expect(
+        decideCheckoutAccess(paidPlan, sub("mercadopago", status, future), NOW),
+        status
+      ).toEqual({ allowed: true });
+    }
+  });
+
+  it("no bloquea por una cancelación de Mercado Pago sin fin de período conocido", () => {
+    expect(
+      decideCheckoutAccess(paidPlan, sub("mercadopago", "cancelled", null), NOW)
     ).toEqual({ allowed: true });
   });
 

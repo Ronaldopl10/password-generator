@@ -49,8 +49,9 @@ export interface DodoEvent {
   timestamp: string | Date | null;
   data?: Record<string, unknown> | null;
   /**
-   * Nombre de plan ya resuelto desde `data.product_id` por el llamador. Es el
-   * fallback cuando el metadata del checkout no trae `planName`.
+   * Nombre de plan ya resuelto desde `data.product_id` por el llamador. Es la
+   * fuente principal: el producto comprado manda sobre la metadata del
+   * checkout, que un `plan_changed` no reescribe.
    */
   planName?: string | null;
 }
@@ -142,9 +143,17 @@ export function planNameForProductId(
   return null;
 }
 
-/** Nombre de plan del evento: metadata del checkout y, si falta, el producto. */
+/**
+ * Nombre de plan del evento: el producto comprado y, si no se conoce, la
+ * metadata del checkout.
+ *
+ * El orden no es cosmético: `subscription.plan_changed` cambia el producto y no
+ * reescribe la metadata, así que preferir la metadata escribiría el plan viejo
+ * después de un cambio de plan. La metadata queda como fallback para un
+ * producto que este modo no conoce (otro entorno, producto borrado del panel).
+ */
 function eventPlanName(event: DodoEvent): string | null {
-  return planNameFromMetadata(event.data) ?? event.planName ?? null;
+  return event.planName ?? planNameFromMetadata(event.data) ?? null;
 }
 
 /**
@@ -200,6 +209,10 @@ export function reduceEvent(
     };
   };
 
+  // La guarda de la suscripción ajena vale para todo lo que toca el estado,
+  // incluidas la mora y la cancelación: el aviso tarde de una suscripción vieja
+  // no puede marcar `past_due` al usuario que ya está al día con otra.
+
   switch (event.type) {
     // Reactivación tras una mora: el plan vuelve a ser el del checkout. Un
     // `unpaused` sin nombre de plan no se inventa: queda `unresolved`.
@@ -231,6 +244,10 @@ export function reduceEvent(
 
     // Mora: se mantiene el plan y corre el fin de período al plazo de gracia.
     case "subscription.past_due":
+      if (fromAnotherSubscription) {
+        return { outcome: "ignored" };
+      }
+
       return {
         outcome: "applied",
         next: {

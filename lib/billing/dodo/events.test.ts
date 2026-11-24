@@ -143,6 +143,47 @@ describe("reduceEvent: activación", () => {
     expect(result.next?.currentPeriodEnd).toEqual(new Date("2026-12-22T11:59:00.000Z"));
   });
 
+  // F5: `subscription.plan_changed` cambia el producto pero NO reescribe la
+  // metadata del checkout. Si la metadata mandara, se escribiría el plan viejo
+  // (starter) en vez del comprado (pro).
+  it("el producto comprado gana sobre la metadata vieja en plan_changed", () => {
+    const result = reduceEvent(
+      {
+        ...event(
+          "subscription.plan_changed",
+          withMetadata("starter", {
+            subscription_id: "sub_123",
+            product_id: "pdt_pro_456",
+          })
+        ),
+        planName: "pro",
+      },
+      state({
+        provider: "dodo",
+        externalId: "sub_123",
+        planName: "starter",
+        status: "active",
+      }),
+      NOW,
+      planIds()
+    );
+
+    expect(result.outcome).toBe("applied");
+    expect(result.next?.planName).toBe("pro");
+  });
+
+  it("cae a la metadata sólo cuando el producto es desconocido", () => {
+    const result = reduceEvent(
+      { ...event("subscription.active", withMetadata("starter")), planName: null },
+      state(),
+      NOW,
+      planIds()
+    );
+
+    expect(result.outcome).toBe("applied");
+    expect(result.next?.planName).toBe("starter");
+  });
+
   it("trata subscription.updated y subscription.plan_changed como activación", () => {
     for (const type of ["subscription.updated", "subscription.plan_changed"]) {
       const result = reduceEvent(
@@ -540,6 +581,37 @@ describe("reduceEvent: eventos de otra suscripción", () => {
 
     expect(result).toEqual({ outcome: "ignored" });
     expect(result.next).toBeUndefined();
+  });
+
+  it("ignora una mora que viene de otra suscripción", () => {
+    const result = reduceEvent(
+      event("subscription.past_due", withMetadata("pro", foreign)),
+      current,
+      NOW,
+      planIds()
+    );
+
+    expect(result).toEqual({ outcome: "ignored" });
+    expect(result.next).toBeUndefined();
+  });
+
+  it("aplica la mora cuando el evento es de la suscripción actual", () => {
+    const result = reduceEvent(
+      event(
+        "subscription.past_due",
+        withMetadata("pro", {
+          subscription_id: "sub_actual",
+          past_due_ends_at: "2026-11-29T00:00:00.000Z",
+        })
+      ),
+      current,
+      NOW,
+      planIds()
+    );
+
+    expect(result.outcome).toBe("applied");
+    expect(result.next?.status).toBe("past_due");
+    expect(result.next?.lastEventAt).toEqual(new Date(EVENT_AT));
   });
 
   it("aplica el downgrade cuando el evento es de la suscripción actual", () => {

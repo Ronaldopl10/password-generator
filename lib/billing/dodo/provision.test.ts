@@ -1,7 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { applyEventToStore, sweepExpired } from "@/lib/billing/dodo/provision";
-import type { SubscriptionStore, SubscriptionWrite } from "@/lib/billing/dodo/provision";
+import type {
+  ObservedSubscription,
+  SubscriptionStore,
+  SubscriptionWrite,
+  SubscriptionWriteResult,
+} from "@/lib/billing/dodo/provision";
 import type { CurrentState } from "@/lib/billing/dodo/events";
 import { runEvent } from "@/lib/billing/dodo/provision-prisma";
 
@@ -16,11 +21,13 @@ const db = vi.hoisted(() => {
   const state = {
     row: null as Row | null,
     subscription: null as Row | null,
+    subscriptionUpdateCount: 0,
     users: new Map<string, string>(),
     planIds: { free: "plan_free", starter: "plan_starter", pro: "plan_pro" } as Record<string, string>,
   };
   const eventUpdates: Row[] = [];
   const subscriptionUpserts: Array<{ userId: string; data: Row }> = [];
+  const subscriptionUpdates: Row[] = [];
   const userLookups: string[] = [];
 
   const prisma = {
@@ -40,11 +47,14 @@ const db = vi.hoisted(() => {
     },
     subscription: {
       findUnique: async () => state.subscription,
-      upsert: async (args: Row) => {
-        subscriptionUpserts.push({ userId: args.where.userId, data: args.create });
-        return args.create;
+      create: async (args: Row) => {
+        subscriptionUpserts.push({ userId: args.data.userId, data: args.data });
+        return args.data;
       },
-      updateMany: async () => ({ count: 0 }),
+      updateMany: async (args: Row) => {
+        subscriptionUpdates.push(args);
+        return { count: state.subscriptionUpdateCount };
+      },
     },
     user: {
       findUnique: async (args: Row) => {
@@ -56,7 +66,7 @@ const db = vi.hoisted(() => {
     },
   };
 
-  return { state, eventUpdates, subscriptionUpserts, userLookups, prisma };
+  return { state, eventUpdates, subscriptionUpserts, subscriptionUpdates, userLookups, prisma };
 });
 
 vi.mock("@/lib/prisma", () => ({ prisma: db.prisma }));
@@ -83,6 +93,12 @@ function state(overrides: Partial<CurrentState> = {}): CurrentState {
 class FakeStore implements SubscriptionStore {
   readonly subscriptions = new Map<string, CurrentState>();
   readonly writes: Array<{ userId: string; data: SubscriptionWrite }> = [];
+  /** Todo intento de escritura, incluso los que terminan en conflicto. */
+  readonly observedWrites: Array<{
+    userId: string;
+    data: SubscriptionWrite;
+    observed: ObservedSubscription;
+  }> = [];
   readonly plans = new Map<string, string>([
     ["free", "plan_free"],
     ["starter", "plan_starter"],
@@ -90,6 +106,8 @@ class FakeStore implements SubscriptionStore {
   ]);
   reconcileCalls: Date[] = [];
   reconcileResult = 0;
+  /** Un conflicto simulado: devuelve `applied: false` sin escribir nada. */
+  writeResult: SubscriptionWriteResult = { applied: true };
 
   constructor(initial: Record<string, CurrentState> = {}) {
     for (const [userId, sub] of Object.entries(initial)) {
@@ -109,7 +127,17 @@ class FakeStore implements SubscriptionStore {
     return this.plans.get("free") ?? null;
   }
 
-  async upsertFromWebhook(userId: string, data: SubscriptionWrite): Promise<void> {
+  async upsertFromWebhook(
+    userId: string,
+    data: SubscriptionWrite,
+    observed: ObservedSubscription
+  ): Promise<SubscriptionWriteResult> {
+    this.observedWrites.push({ userId, data, observed });
+
+    if (!this.writeResult.applied) {
+      return this.writeResult;
+    }
+
     this.writes.push({ userId, data });
     const planName =
       [...this.plans.entries()].find(([, id]) => id === data.planId)?.[0] ?? null;
@@ -123,6 +151,8 @@ class FakeStore implements SubscriptionStore {
       cancelAtPeriodEnd: data.cancelAtPeriodEnd,
       lastEventAt: data.lastEventAt,
     });
+
+    return { applied: true };
   }
 
   async reconcileExpired(now: Date): Promise<number> {
@@ -261,6 +291,62 @@ describe("applyEventToStore: escritura", () => {
 
     expect(result).toEqual({ outcome: "applied" });
     expect(store.writes[0].data.planId).toBe("plan_pro");
+  });
+});
+
+describe("applyEventToStore: escritura condicional", () => {
+  const currentState = state({
+    provider: "dodo",
+    externalId: "sub_123",
+    planName: "starter",
+    status: "active",
+    currentPeriodEnd: FUTURE,
+    lastEventAt: new Date("2026-11-21T00:00:00.000Z"),
+  });
+
+  function activeEvent() {
+    return {
+      eventType: "subscription.active",
+      timestamp: EVENT_AT,
+      userId: "user_1",
+      payload: activePayload(),
+    };
+  }
+
+  it("informa stale con el motivo del conflicto y no aplica el estado", async () => {
+    const store = new FakeStore({ user_1: currentState });
+    store.writeResult = { applied: false, reason: "conflict" };
+
+    const result = await applyEventToStore(activeEvent(), store, NOW);
+
+    expect(result).toEqual({ outcome: "stale", reason: "conflict" });
+    expect(store.writes).toHaveLength(0);
+    expect(store.subscriptions.get("user_1")).toEqual(currentState);
+  });
+
+  it("escribe el lastEventAt que la lectura observó", async () => {
+    const store = new FakeStore({ user_1: currentState });
+
+    const result = await applyEventToStore(activeEvent(), store, NOW);
+
+    expect(result).toEqual({ outcome: "applied" });
+    expect(store.observedWrites).toHaveLength(1);
+    expect(store.observedWrites[0].observed).toEqual({
+      exists: true,
+      lastEventAt: currentState.lastEventAt,
+    });
+  });
+
+  it("declara la escritura como creación cuando el usuario no tenía fila", async () => {
+    const store = new FakeStore();
+
+    await applyEventToStore(activeEvent(), store, NOW);
+
+    expect(store.observedWrites).toHaveLength(1);
+    expect(store.observedWrites[0].observed).toEqual({
+      exists: false,
+      lastEventAt: null,
+    });
   });
 });
 
@@ -452,11 +538,31 @@ function lastEventUpdate(): Record<string, any> | undefined {
 function resetDb(): void {
   db.eventUpdates.length = 0;
   db.subscriptionUpserts.length = 0;
+  db.subscriptionUpdates.length = 0;
   db.userLookups.length = 0;
   db.state.users.clear();
   db.state.users.set("user@example.com", "user_1");
   db.state.subscription = null;
+  db.state.subscriptionUpdateCount = 0;
   db.state.row = webhookRow();
+}
+
+/** Fila de `Subscription` como la devuelve `findUnique` con el plan incluido. */
+function subscriptionRow(overrides: Record<string, any> = {}) {
+  return {
+    id: "sub_row_1",
+    userId: "user_1",
+    planId: "plan_starter",
+    plan: { name: "starter" },
+    status: "active",
+    provider: "dodo",
+    externalId: "sub_123",
+    currentPeriodEnd: FUTURE,
+    cancelAtPeriodEnd: false,
+    lastEventAt: new Date("2026-11-21T00:00:00.000Z"),
+    checkoutLockUntil: null,
+    ...overrides,
+  };
 }
 
 describe("runEvent: marca de tiempo del evento", () => {
@@ -537,5 +643,50 @@ describe("runEvent: resolución del usuario", () => {
     expect(db.userLookups).toHaveLength(0);
     expect(db.subscriptionUpserts).toHaveLength(0);
     expect(lastEventUpdate()?.lastError).toBe("missing_user_id");
+  });
+});
+
+describe("runEvent: escritura condicional sobre lastEventAt", () => {
+  beforeEach(resetDb);
+
+  it("escribe con un solo updateMany condicionado al lastEventAt leído y libera el lock", async () => {
+    const row = subscriptionRow();
+    db.state.subscription = row;
+    db.state.subscriptionUpdateCount = 1;
+
+    await runEvent("evt_1");
+
+    expect(db.subscriptionUpserts).toHaveLength(0);
+    expect(db.subscriptionUpdates).toHaveLength(1);
+    expect(db.subscriptionUpdates[0].where).toEqual({
+      userId: "user_1",
+      lastEventAt: row.lastEventAt,
+    });
+    expect(db.subscriptionUpdates[0].data.checkoutLockUntil).toBeNull();
+    expect(lastEventUpdate()?.status).toBe("done");
+    expect(lastEventUpdate()?.lastError).toBeNull();
+  });
+
+  it("no crea una fila cuando el lastEventAt observado ya cambió", async () => {
+    // La fila existe: un `count === 0` es un conflicto, no una creación.
+    db.state.subscription = subscriptionRow();
+    db.state.subscriptionUpdateCount = 0;
+
+    await runEvent("evt_1");
+
+    expect(db.subscriptionUpserts).toHaveLength(0);
+    expect(lastEventUpdate()?.status).toBe("ignored");
+    expect(lastEventUpdate()?.lastError).toBe("concurrent_write");
+  });
+
+  it("crea la fila cuando el usuario no tenía suscripción", async () => {
+    db.state.subscription = null;
+    db.state.subscriptionUpdateCount = 0;
+
+    await runEvent("evt_1");
+
+    expect(db.subscriptionUpserts).toHaveLength(1);
+    expect(db.subscriptionUpserts[0].data.lastEventAt).toEqual(new Date(EVENT_AT));
+    expect(lastEventUpdate()?.status).toBe("done");
   });
 });

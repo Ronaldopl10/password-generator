@@ -30,6 +30,28 @@ export interface SubscriptionWrite {
 }
 
 /**
+ * Estado que la lectura observó antes de escribir. Es la base de la escritura
+ * condicional: si la fila cambió en el medio, la escritura no se aplica.
+ */
+export interface ObservedSubscription {
+  /** `false` cuando el usuario no tenía fila de suscripción al leer. */
+  exists: boolean;
+  /** `lastEventAt` tal como lo devolvió la lectura (`null` en una fila nueva). */
+  lastEventAt: Date | null;
+}
+
+/** Motivo con el que se informa un conflicto de escritura concurrente. */
+export const CONFLICT_REASON = "conflict";
+
+/**
+ * Resultado de la escritura. `applied: false` es un conflicto de concurrencia:
+ * otro evento escribió primero y este no se aplicó.
+ */
+export type SubscriptionWriteResult =
+  | { applied: true }
+  | { applied: false; reason: typeof CONFLICT_REASON };
+
+/**
  * Persistencia que necesita la provisión. Toda la implementación de base de
  * datos queda detrás de esta interfaz: el módulo puro nunca importa prisma.
  */
@@ -37,7 +59,15 @@ export interface SubscriptionStore {
   findSubscription(userId: string): Promise<CurrentState | null>;
   planIdByName(name: string): Promise<string | null>;
   freePlanId(): Promise<string | null>;
-  upsertFromWebhook(userId: string, data: SubscriptionWrite): Promise<void>;
+  /**
+   * Escribe el estado observado en `observed`; `applied: false` = conflicto.
+   * La implementación es una única escritura condicional sobre `lastEventAt`.
+   */
+  upsertFromWebhook(
+    userId: string,
+    data: SubscriptionWrite,
+    observed: ObservedSubscription
+  ): Promise<SubscriptionWriteResult>;
   /** Degrada a free las suscripciones vencidas; devuelve cuántas cambió. */
   reconcileExpired(now: Date): Promise<number>;
 }
@@ -61,7 +91,7 @@ export interface ApplyEventOptions {
 
 export interface ApplyResult {
   outcome: EventOutcome;
-  /** Reservado para diagnóstico; hoy no se persiste. */
+  /** Motivo del resultado; el llamador lo persiste cuando aporta información. */
   reason?: string;
 }
 
@@ -88,7 +118,9 @@ function pick<K extends keyof CurrentState>(
  * Aplica un evento de webhook al store.
  *
  * Nunca lanza por un evento `stale`, `ignored` o `unresolved`: esos se informan
- * con el `outcome` y no tocan la suscripción. Sólo un `applied` escribe.
+ * con el `outcome` y no tocan la suscripción. Sólo un `applied` escribe, y una
+ * escritura que choca con otro evento en curso queda como `stale` con
+ * `reason: CONFLICT_REASON` (nunca como éxito).
  */
 export async function applyEventToStore(
   input: EventInput,
@@ -96,7 +128,12 @@ export async function applyEventToStore(
   now: Date,
   options: ApplyEventOptions = {}
 ): Promise<ApplyResult> {
-  const current = (await store.findSubscription(input.userId)) ?? EMPTY_STATE;
+  const stored = await store.findSubscription(input.userId);
+  const current = stored ?? EMPTY_STATE;
+  const observed: ObservedSubscription = {
+    exists: stored !== null,
+    lastEventAt: stored?.lastEventAt ?? null,
+  };
   const data = input.payload?.data ?? null;
   const productPlanName = planNameForProductId(
     typeof data?.product_id === "string" ? data.product_id : null,
@@ -167,16 +204,26 @@ export async function applyEventToStore(
     return { outcome: "unresolved", reason: `unknown_plan:${planName}` };
   }
 
-  await store.upsertFromWebhook(input.userId, {
-    planId,
-    planName,
-    status: pick(next, current, "status"),
-    provider: pick(next, current, "provider"),
-    externalId: pick(next, current, "externalId"),
-    currentPeriodEnd: pick(next, current, "currentPeriodEnd"),
-    cancelAtPeriodEnd: pick(next, current, "cancelAtPeriodEnd"),
-    lastEventAt: pick(next, current, "lastEventAt"),
-  });
+  const write = await store.upsertFromWebhook(
+    input.userId,
+    {
+      planId,
+      planName,
+      status: pick(next, current, "status"),
+      provider: pick(next, current, "provider"),
+      externalId: pick(next, current, "externalId"),
+      currentPeriodEnd: pick(next, current, "currentPeriodEnd"),
+      cancelAtPeriodEnd: pick(next, current, "cancelAtPeriodEnd"),
+      lastEventAt: pick(next, current, "lastEventAt"),
+    },
+    observed
+  );
+
+  if (!write.applied) {
+    // Otro evento escribió entre la lectura y esta escritura: el estado que se
+    // leyó ya no rige. No se reintenta acá; reintentar es decisión del drenaje.
+    return { outcome: "stale", reason: CONFLICT_REASON };
+  }
 
   return { outcome: "applied" };
 }

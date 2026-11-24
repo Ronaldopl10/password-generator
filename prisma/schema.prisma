@@ -90,6 +90,10 @@ model Subscription {
   cancelAtPeriodEnd Boolean @default(false)
   /// Marca de tiempo del último evento aplicado; sirve para descartar eventos viejos.
   lastEventAt DateTime?
+  /// Mutex corto del checkout en curso: lo toma la ruta al crear la sesión y lo
+  /// suelta al terminar (o al aplicar el webhook). Es la única barrera contra
+  /// dos sesiones simultáneas para el mismo usuario; el TTL de 60 s es la red.
+  checkoutLockUntil DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

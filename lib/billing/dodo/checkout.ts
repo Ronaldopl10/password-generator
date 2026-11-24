@@ -41,6 +41,8 @@ const ENTITLED_STATUSES: readonly string[] = ["active", "past_due"];
  * de nombre en la pasarela), y un `null` no prueba que la suscripción terminó.
  * Sólo una cancelación con fin de período conocido y futuro sigue vigente; sin
  * fecha conocida no hay período pago que conservar.
+ *
+ * No mira `provider`: el acceso pago bloquea venga de la pasarela que venga.
  */
 function isStillEntitled(
   subscription: CheckoutSubscriptionInput,
@@ -63,11 +65,18 @@ function isStillEntitled(
 /**
  * ¿Se puede crear un checkout para este usuario?
  *
- * - Plan free (`price <= 0`) → `free_plan`.
- * - Suscripción de Dodo vigente por `status` (y, si está cancelada, por el fin
- *   del período pago) → `already_subscribed`.
- * - Cualquier otra suscripción (Mercado Pago, sin provider o de Dodo ya
- *   vencida) no bloquea: el usuario tiene que poder migrar o volver a pagar.
+ * - Plan free (`price <= 0`) → `free_plan` (gana sobre todo lo demás).
+ * - Cualquier suscripción que todavía da acceso pago (`active`, `past_due`, o
+ *   `cancelled` con fin de período futuro) → `already_subscribed`, **sin mirar
+ *   la pasarela**. La fila `Subscription` es única por usuario (`userId` es
+ *   `@unique`), así que dejar pasar un checkout de Dodo sobre una suscripción
+ *   vigente de Mercado Pago haría que el webhook de Dodo pise esa misma fila:
+ *   doble cobro y entitlement perdido, en silencio. Pasar de Mercado Pago a
+ *   Dodo es una decisión explícita (cancelar y esperar el fin del período
+ *   pago), no un efecto lateral del checkout.
+ * - Una suscripción sin acceso pago vigente (`expired`, `refunded`, `on_hold`,
+ *   `inactive`, o `cancelled` sin período pendiente) no bloquea: el usuario
+ *   tiene que poder volver a pagar.
  */
 export function decideCheckoutAccess(
   plan: CheckoutPlanInput,
@@ -78,11 +87,7 @@ export function decideCheckoutAccess(
     return { allowed: false, reason: "free_plan" };
   }
 
-  if (
-    subscription !== null &&
-    subscription.provider === DODO_PROVIDER &&
-    isStillEntitled(subscription, now)
-  ) {
+  if (subscription !== null && isStillEntitled(subscription, now)) {
     return { allowed: false, reason: "already_subscribed" };
   }
 

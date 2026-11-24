@@ -15,9 +15,12 @@ import { readDodoConfig } from "./env";
 import { FREE_PLAN_NAME, type CurrentState } from "./events";
 import {
   applyEventToStore,
+  CONFLICT_REASON,
   sweepExpired as sweepExpiredSubscriptions,
+  type ObservedSubscription,
   type SubscriptionStore,
   type SubscriptionWrite,
+  type SubscriptionWriteResult,
 } from "./provision";
 
 /** Cuánto dura el lease de una fila antes de que otro proceso la tome. */
@@ -25,6 +28,8 @@ const LEASE_MS = 2 * 60 * 1000;
 /** Intentos después de los cuales la fila queda `dead` esperando revisión. */
 const MAX_ATTEMPTS = 5;
 const MAX_ERROR_LENGTH = 500;
+/** `lastError` con el que se registra un conflicto de escritura en la cola. */
+const CONCURRENT_WRITE_ERROR = "concurrent_write";
 
 /**
  * Espera antes del próximo intento, por número de intento ya consumado:
@@ -115,17 +120,49 @@ export const prismaSubscriptionStore: SubscriptionStore = {
 
   async upsertFromWebhook(
     userId: string,
-    data: SubscriptionWrite
-  ): Promise<void> {
+    data: SubscriptionWrite,
+    observed: ObservedSubscription
+  ): Promise<SubscriptionWriteResult> {
     // El nombre del plan es del reducer; la única fuente de verdad del plan en
     // la DB es `planId`.
     const { planName: _planName, ...fields } = data;
+    // La compra terminó: se suelta el lock de checkout que puso la ruta.
+    const write = { ...fields, checkoutLockUntil: null };
 
-    await prisma.subscription.upsert({
-      where: { userId },
-      create: { userId, ...fields },
-      update: fields,
+    // Compare-and-set sobre lo que la lectura observó: la escritura sólo entra
+    // si nadie la cambió en el medio, así dos eventos concurrentes no se pisan
+    // (el que llega segundo no aplica sobre un estado que ya no existe).
+    const updated = await prisma.subscription.updateMany({
+      where: { userId, lastEventAt: observed.lastEventAt },
+      data: write,
     });
+
+    if (updated.count > 0) {
+      return { applied: true };
+    }
+
+    if (observed.exists) {
+      // La fila existe pero cambió: es un conflicto, no una fila nueva. No se
+      // reintenta acá (el drenaje decide) y nunca se informa éxito.
+      return { applied: false, reason: CONFLICT_REASON };
+    }
+
+    try {
+      await prisma.subscription.create({ data: { userId, ...write } });
+
+      return { applied: true };
+    } catch (error) {
+      // Otra ejecución creó la fila entre la lectura y este `create`: mismo
+      // conflicto, con `userId` `@unique` como árbitro.
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        return { applied: false, reason: CONFLICT_REASON };
+      }
+
+      throw error;
+    }
   },
 
   async reconcileExpired(now: Date): Promise<number> {
@@ -214,7 +251,8 @@ async function resolveUserId(
  * Drena una fila de la cola de webhooks.
  *
  * 1. Toma el lease de forma atómica; si otro proceso ya la tomó, no hace nada.
- * 2. Aplica el evento con la orquestación pura.
+ * 2. Aplica el evento con la orquestación pura (una sola escritura condicional:
+ *    si choca con otro evento, queda `ignored` con `concurrent_write`).
  * 3. Deja la fila en `done`/`ignored`, o en `failed`/`dead` con el error
  *    truncado y, si queda reintento, el lease corriendo al final del backoff.
  *    Nunca re-lanza después de persistir el resultado.
@@ -289,7 +327,12 @@ export async function runEvent(eventId: string): Promise<void> {
         status: result.outcome === "applied" ? "done" : "ignored",
         processedAt: new Date(),
         leaseUntil: null,
-        lastError: null,
+        // Un conflicto de escritura se registra como `ignored` con su motivo:
+        // el evento no se aplicó porque otro ganó, no porque haya fallado.
+        lastError:
+          result.outcome === "stale" && result.reason === CONFLICT_REASON
+            ? CONCURRENT_WRITE_ERROR
+            : null,
       },
     });
   } catch (error) {
