@@ -107,6 +107,9 @@ export async function POST(req: NextRequest) {
 
     subscription = await prisma.subscription.findUnique({
       where: { userId },
+      // El plan guardado dice si el acceso que hay que proteger es pago; el
+      // `status` solo no alcanza (el registro deja "active" sobre el plan free).
+      include: { plan: { select: { price: true } } },
     });
   } catch (error) {
     console.error(`${LOG_PREFIX} database error`, {
@@ -129,6 +132,7 @@ export async function POST(req: NextRequest) {
           provider: subscription.provider,
           status: subscription.status,
           currentPeriodEnd: subscription.currentPeriodEnd,
+          currentPlanIsFree: subscription.plan.price <= 0,
         },
     new Date()
   );

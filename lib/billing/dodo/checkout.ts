@@ -25,6 +25,15 @@ export interface CheckoutSubscriptionInput {
   /** `Subscription.status` tal como lo dejó el último webhook aplicado. */
   status: string;
   currentPeriodEnd: Date | null;
+  /**
+   * `true` cuando el plan de la suscripción guardada es free (`price <= 0`).
+   *
+   * El registro crea la fila con `status: "active"` sobre el plan free, así que
+   * sin este dato la guardia de doble suscripción le cerraría el checkout a
+   * todo comprador primerizo. Lo resuelve quien lee la DB: acá no se consulta
+   * nada.
+   */
+  currentPlanIsFree: boolean;
 }
 
 /** Pasarela que origina suscripciones de Dodo. */
@@ -43,6 +52,9 @@ const ENTITLED_STATUSES: readonly string[] = ["active", "past_due"];
  * fecha conocida no hay período pago que conservar.
  *
  * No mira `provider`: el acceso pago bloquea venga de la pasarela que venga.
+ * No mira el plan: una fila `free` con `status: "active"` también "da acceso",
+ * pero no es un acceso pago, y quien decide eso es `decideCheckoutAccess` con
+ * `currentPlanIsFree`.
  */
 function isStillEntitled(
   subscription: CheckoutSubscriptionInput,
@@ -66,14 +78,18 @@ function isStillEntitled(
  * ¿Se puede crear un checkout para este usuario?
  *
  * - Plan free (`price <= 0`) → `free_plan` (gana sobre todo lo demás).
- * - Cualquier suscripción que todavía da acceso pago (`active`, `past_due`, o
- *   `cancelled` con fin de período futuro) → `already_subscribed`, **sin mirar
- *   la pasarela**. La fila `Subscription` es única por usuario (`userId` es
- *   `@unique`), así que dejar pasar un checkout de Dodo sobre una suscripción
- *   vigente de Mercado Pago haría que el webhook de Dodo pise esa misma fila:
- *   doble cobro y entitlement perdido, en silencio. Pasar de Mercado Pago a
- *   Dodo es una decisión explícita (cancelar y esperar el fin del período
- *   pago), no un efecto lateral del checkout.
+ * - Suscripción guardada en el plan free → no bloquea aunque su `status` sea
+ *   `active` (`past_due`, etc.): el registro crea esa fila así y comprar el
+ *   primer plan pago es exactamente la operación normal. El plan guardado, no
+ *   el `status` suelto, dice si hay un acceso pago que proteger.
+ * - Suscripción de un plan **pago** que todavía da acceso (`active`, `past_due`,
+ *   o `cancelled` con fin de período futuro) → `already_subscribed`, **sin
+ *   mirar la pasarela**. La fila `Subscription` es única por usuario (`userId`
+ *   es `@unique`), así que dejar pasar un checkout de Dodo sobre una
+ *   suscripción vigente de Mercado Pago haría que el webhook de Dodo pise esa
+ *   misma fila: doble cobro y entitlement perdido, en silencio. Pasar de
+ *   Mercado Pago a Dodo es una decisión explícita (cancelar y esperar el fin
+ *   del período pago), no un efecto lateral del checkout.
  * - Una suscripción sin acceso pago vigente (`expired`, `refunded`, `on_hold`,
  *   `inactive`, o `cancelled` sin período pendiente) no bloquea: el usuario
  *   tiene que poder volver a pagar.
@@ -87,7 +103,11 @@ export function decideCheckoutAccess(
     return { allowed: false, reason: "free_plan" };
   }
 
-  if (subscription !== null && isStillEntitled(subscription, now)) {
+  if (
+    subscription !== null &&
+    !subscription.currentPlanIsFree &&
+    isStillEntitled(subscription, now)
+  ) {
     return { allowed: false, reason: "already_subscribed" };
   }
 

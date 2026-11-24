@@ -9,18 +9,27 @@ const paidPlan = { price: 2.99 };
 const future = new Date("2026-12-22T12:00:00.000Z");
 const past = new Date("2026-10-22T12:00:00.000Z");
 
-/** Suscripción en el estado dado, con la pasarela y el fin de período explícitos. */
+/**
+ * Suscripción en el estado dado, con la pasarela, el fin de período y el plan
+ * guardado explícitos. `currentPlanIsFree` es `false` por defecto: la mayoría
+ * de los casos fija el bug de la suscripción paga vigente.
+ */
 function sub(
   provider: string | null,
   status: string,
-  currentPeriodEnd: Date | null
+  currentPeriodEnd: Date | null,
+  currentPlanIsFree = false
 ): CheckoutSubscriptionInput {
-  return { provider, status, currentPeriodEnd };
+  return { provider, status, currentPeriodEnd, currentPlanIsFree };
 }
 
 /** Suscripción de Dodo en el estado dado; el fin de período es explícito. */
-function dodo(status: string, currentPeriodEnd: Date | null): CheckoutSubscriptionInput {
-  return sub("dodo", status, currentPeriodEnd);
+function dodo(
+  status: string,
+  currentPeriodEnd: Date | null,
+  currentPlanIsFree = false
+): CheckoutSubscriptionInput {
+  return sub("dodo", status, currentPeriodEnd, currentPlanIsFree);
 }
 
 describe("decisión de checkout de Dodo", () => {
@@ -33,6 +42,37 @@ describe("decisión de checkout de Dodo", () => {
 
   it("rechaza un precio negativo como plan free", () => {
     expect(decideCheckoutAccess({ price: -1 }, null, NOW)).toEqual({
+      allowed: false,
+      reason: "free_plan",
+    });
+  });
+
+  // El registro crea la fila `Subscription` con `status: "active"` sobre el
+  // plan free. Sin mirar el plan guardado, todo comprador primerizo recibía
+  // 409 `already_subscribed` y no podía comprar nunca.
+  it("permite comprar cuando la suscripción guardada está en el plan free", () => {
+    expect(decideCheckoutAccess(paidPlan, dodo("active", null, true), NOW)).toEqual({
+      allowed: true,
+    });
+  });
+
+  it("permite comprar con una suscripción free activa o en mora y período futuro", () => {
+    for (const status of ["active", "past_due"]) {
+      expect(
+        decideCheckoutAccess(paidPlan, dodo(status, future, true), NOW),
+        status
+      ).toEqual({ allowed: true });
+    }
+  });
+
+  it("permite comprar con una suscripción free cancelada", () => {
+    expect(decideCheckoutAccess(paidPlan, dodo("cancelled", future, true), NOW)).toEqual({
+      allowed: true,
+    });
+  });
+
+  it("el plan free gana también sobre una suscripción guardada en el plan free", () => {
+    expect(decideCheckoutAccess({ price: 0 }, dodo("active", null, true), NOW)).toEqual({
       allowed: false,
       reason: "free_plan",
     });
