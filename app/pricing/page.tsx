@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
+import { DodoCheckout } from "@/components/ui/dodo-checkout";
 import { MercadoPagoCheckout } from "@/components/ui/mercadopago-checkout";
 import { SiteFooter } from "@/components/legal/site-footer";
 import {
@@ -78,6 +79,12 @@ export default async function PricingPage() {
     : null;
 
   const currentPlanName = userSubscription?.plan.name ?? null;
+
+  // El botón de Dodo sólo aparece con ambos productos configurados: mejor el
+  // placeholder que un botón muerto en producción.
+  const dodoCheckoutReady = Boolean(
+    process.env.DODO_PRODUCT_STARTER && process.env.DODO_PRODUCT_PRO
+  );
 
   const softwareApplicationJsonLd = buildSoftwareApplicationJsonLd(
     plans.map((plan) => ({
@@ -277,18 +284,22 @@ export default async function PricingPage() {
                           email={session?.user?.email ?? undefined}
                           loginRedirect="/login?callbackUrl=/pricing"
                         />
-                        <div className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md border border-dashed border-border text-muted-foreground text-xs">
-                          <Image
-                            src="/dodo-payments.svg"
-                            alt="Dodo Payments"
-                            width={18}
-                            height={18}
-                            style={{ width: 18, height: 18 }}
-                          />
-                          <span>
-                            Dodo Payments — tarjetas internacionales, próximamente
-                          </span>
-                        </div>
+                        {dodoCheckoutReady ? (
+                          <DodoCheckout planId={plan.id} />
+                        ) : (
+                          <div className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md border border-dashed border-border text-muted-foreground text-xs">
+                            <Image
+                              src="/dodo-payments.svg"
+                              alt="Dodo Payments"
+                              width={18}
+                              height={18}
+                              style={{ width: 18, height: 18 }}
+                            />
+                            <span>
+                              Dodo Payments — tarjetas internacionales, próximamente
+                            </span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </CardFooter>
