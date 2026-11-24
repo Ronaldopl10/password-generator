@@ -237,7 +237,7 @@ export async function POST(req: NextRequest) {
         product_cart: [{ product_id: productId, quantity: 1 }],
         customer: { email, name },
         metadata,
-        return_url: `${baseUrl}/dashboard?checkout=success`,
+        return_url: `${baseUrl}/?checkout=success`,
         cancel_url: `${baseUrl}/pricing?checkout=cancelled`,
       });
 
