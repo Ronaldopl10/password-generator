@@ -59,9 +59,13 @@ Integración de Dodo Payments (merchant of record) en Iron Key: checkout, webhoo
 Corregido además: un `expired` de una suscripción vieja degradaba a un usuario al día (ahora las bajas exigen que el `subscription_id` coincida); el adapter sustituía el timestamp ausente por la hora de recepción y salteaba la protección de orden; el usuario se resolvía sólo por `metadata.userId` (se agregó fallback por `customer.email`); y `BillingCustomer` quedó fuera del esquema y de la migración por no tener escritor.
 Lección registrada: un fixture inventado no es evidencia. `payload-shape.test.ts` fija la forma real del payload y verifica que el fixture **no** contenga campos que el SDK desconoce.
 
+**L8** (compra de prueba real, 24-nov-2026): primera compra end-to-end en test mode, contra una rama de Neon (`pruebas`) y no contra producción. Resultado: `subscription.active` aplicado y `done`, suscripción `active` con plan Starter y el `sub_…` de Dodo, y el vault pasando de 18 a 40 contraseñas. `/pricing` muestra "Plan actual" en Starter y el botón de Dodo desaparece de esa tarjeta.
+La prueba encontró **dos bugs que ninguna otra verificación vio**: (a) el guard de checkout miraba el `status` de la suscripción guardada pero no de qué plan era, y como todo registro crea una suscripción Free con status `active`, **ningún usuario nuevo podía comprar** — 122 tests, tres lentes y un verificador independiente no lo detectaron porque ningún test construía el caso "usuario Free comprando por primera vez"; (b) el `return_url` apuntaba a `/dashboard`, ruta que no existe (el dashboard vive en `/`), así que todo cliente que pagaba terminaba en un 404.
+Un tercer hallazgo salió de los eventos reales: `subscription.renewed` y `subscription.updated` llegaron en el mismo instante que `active`, perdieron el compare-and-set y quedaban `ignored` para siempre. Se corrigió a que un conflicto de escritura sea reintentable y un evento genuinamente viejo siga descartándose.
+
 ## Commits (unidad de entrega)
 
-Rama `feat/dodo-payments`, 6 commits desde `main`. Total: ~2400 líneas autoradas, por encima de la guía de ~400 por slice: la entrega va como **un solo push de rama**, sin PRs encadenados, a pedido del owner. El punto de lectura obligatoria es el commit 3 (reducer).
+Rama `feat/dodo-payments`, **10 commits** desde `main`, ~4400 líneas autoradas: muy por encima de la guía de ~400 por slice. La entrega va como **un solo push de rama**, sin PRs encadenados, a pedido del owner. El punto de lectura obligatoria es el commit 3 (reducer) y el 7 (corrección de los hallazgos).
 
 | Commit | Contenido |
 |---|---|
@@ -70,5 +74,9 @@ Rama `feat/dodo-payments`, 6 commits desde `main`. Total: ~2400 líneas autorada
 | `29c6fc3` | reducer de eventos + fixtures con payload real |
 | `4e37d4f` | webhook firmado + provisión + adaptador Prisma |
 | `bb9c426` | drenaje + workflow de GitHub Actions |
-| `61280cd` | este documento |
+| `4c09160` | este documento |
+| `1cc3543` | corrección de los 9 hallazgos de la revisión nativa |
+| `0788f54` | un usuario Free puede comprar (hallado por la prueba real) |
+| `6dc8a4d` | `return_url` a una ruta existente (hallado por la prueba real) |
+| `bde683a` | un conflicto de escritura se reintenta en vez de descartarse |
 
