@@ -16,6 +16,7 @@ import { FREE_PLAN_NAME, type CurrentState } from "./events";
 import {
   applyEventToStore,
   CONFLICT_REASON,
+  isWriteConflict,
   sweepExpired as sweepExpiredSubscriptions,
   type ObservedSubscription,
   type SubscriptionStore,
@@ -72,6 +73,41 @@ function truncateError(error: unknown): string {
   return message.length > MAX_ERROR_LENGTH
     ? message.slice(0, MAX_ERROR_LENGTH)
     : message;
+}
+
+/**
+ * Deja la fila lista para el próximo intento: `failed` con el lease corriendo
+ * al final del backoff y, agotado el techo de intentos, `dead`.
+ *
+ * Es el único lugar que calcula ese estado, compartido por el error inesperado
+ * y por el conflicto de escritura. En `dead` no hay reintento igual.
+ */
+async function markRetryableFailure(
+  eventId: string,
+  attempts: number,
+  lastError: string
+): Promise<{ status: "failed" | "dead"; retryAt: Date }> {
+  const status: "failed" | "dead" =
+    attempts >= MAX_ATTEMPTS ? "dead" : "failed";
+  // El reintento lo habilita el fin del lease: `failed` con lease futuro no se
+  // reclama hasta que el backoff vence.
+  const retryAt = new Date(Date.now() + retryDelayMs(attempts));
+
+  try {
+    await prisma.billingWebhookEvent.update({
+      where: { id: eventId },
+      data: { status, lastError, leaseUntil: retryAt },
+    });
+  } catch (persistError) {
+    console.error("[dodo webhook] could not persist failure", {
+      eventId,
+      attempts,
+      status,
+      reason: truncateError(persistError),
+    });
+  }
+
+  return { status, retryAt };
 }
 
 async function findPlanIdByName(name: string): Promise<string | null> {
@@ -251,11 +287,12 @@ async function resolveUserId(
  * Drena una fila de la cola de webhooks.
  *
  * 1. Toma el lease de forma atómica; si otro proceso ya la tomó, no hace nada.
- * 2. Aplica el evento con la orquestación pura (una sola escritura condicional:
- *    si choca con otro evento, queda `ignored` con `concurrent_write`).
- * 3. Deja la fila en `done`/`ignored`, o en `failed`/`dead` con el error
- *    truncado y, si queda reintento, el lease corriendo al final del backoff.
- *    Nunca re-lanza después de persistir el resultado.
+ * 2. Aplica el evento con la orquestación pura (una sola escritura condicional).
+ * 3. Deja la fila en `done`/`ignored` o, si el evento perdió una carrera contra
+ *    otro de la misma compra, en `failed` con `concurrent_write` y el lease al
+ *    final del backoff para que se re-evalúe contra el estado fresco. Un error
+ *    inesperado sigue el mismo camino de reintento.
+ * 4. Nunca re-lanza después de persistir el resultado.
  */
 export async function runEvent(eventId: string): Promise<void> {
   const now = new Date();
@@ -321,48 +358,40 @@ export async function runEvent(eventId: string): Promise<void> {
       { products: readProducts() }
     );
 
+    if (isWriteConflict(result)) {
+      // No es un evento viejo: es una carrera perdida contra otro evento de la
+      // misma compra. Lo leído ya no rige, así que se reintenta con el estado
+      // fresco cuando venza el backoff (y queda `dead` en el intento 5).
+      await markRetryableFailure(eventId, row.attempts, CONCURRENT_WRITE_ERROR);
+      return;
+    }
+
     await prisma.billingWebhookEvent.update({
       where: { id: eventId },
       data: {
         status: result.outcome === "applied" ? "done" : "ignored",
         processedAt: new Date(),
         leaseUntil: null,
-        // Un conflicto de escritura se registra como `ignored` con su motivo:
-        // el evento no se aplicó porque otro ganó, no porque haya fallado.
-        lastError:
-          result.outcome === "stale" && result.reason === CONFLICT_REASON
-            ? CONCURRENT_WRITE_ERROR
-            : null,
+        // Un `ignored` no es una falla: el motivo del descarte no se persiste
+        // como error.
+        lastError: null,
       },
     });
   } catch (error) {
     // El error se guarda en la fila: hacia arriba no se re-lanza.
-    const exhausted = row.attempts >= MAX_ATTEMPTS;
-    const status = exhausted ? "dead" : "failed";
-    // El reintento lo habilita el fin del lease: `failed` con lease futuro no
-    // se reclama hasta que el backoff vence. En `dead` no hay reintento igual.
-    const retryAt = new Date(Date.now() + retryDelayMs(row.attempts));
-
-    try {
-      await prisma.billingWebhookEvent.update({
-        where: { id: eventId },
-        data: { status, lastError: truncateError(error), leaseUntil: retryAt },
-      });
-    } catch (persistError) {
-      console.error("[dodo webhook] could not persist failure", {
-        eventId,
-        attempts: row.attempts,
-        status,
-        reason: truncateError(persistError),
-      });
-    }
+    const reason = truncateError(error);
+    const { status, retryAt } = await markRetryableFailure(
+      eventId,
+      row.attempts,
+      reason
+    );
 
     console.error("[dodo webhook] provisioning failed", {
       eventId,
       attempts: row.attempts,
       status,
       retryAt: retryAt.toISOString(),
-      reason: truncateError(error),
+      reason,
     });
   }
 }

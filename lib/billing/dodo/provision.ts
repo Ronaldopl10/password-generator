@@ -93,6 +93,24 @@ export interface ApplyResult {
   outcome: EventOutcome;
   /** Motivo del resultado; el llamador lo persiste cuando aporta información. */
   reason?: string;
+  /**
+   * `true` sólo cuando la escritura condicional perdió una carrera: otro evento
+   * escribió entre la lectura y la escritura, así que lo leído ya no rige.
+   *
+   * La bandera es la forma de distinguirlo de un evento genuinamente viejo
+   * (más antiguo que el `lastEventAt` guardado), que también sale `stale` pero
+   * sin esta bandera: el conflicto se re-evalúa contra el estado fresco y el
+   * evento viejo se descarta. Nunca se distingue por el texto del `reason`.
+   */
+  conflict?: true;
+}
+
+/**
+ * `true` cuando el resultado es un conflicto de concurrencia (reintentable),
+ * `false` para un evento desactualizado (descartable).
+ */
+export function isWriteConflict(result: ApplyResult): boolean {
+  return result.conflict === true;
 }
 
 /** Estado de un usuario sin fila de suscripción. */
@@ -120,7 +138,7 @@ function pick<K extends keyof CurrentState>(
  * Nunca lanza por un evento `stale`, `ignored` o `unresolved`: esos se informan
  * con el `outcome` y no tocan la suscripción. Sólo un `applied` escribe, y una
  * escritura que choca con otro evento en curso queda como `stale` con
- * `reason: CONFLICT_REASON` (nunca como éxito).
+ * `conflict: true` (nunca como éxito).
  */
 export async function applyEventToStore(
   input: EventInput,
@@ -221,8 +239,9 @@ export async function applyEventToStore(
 
   if (!write.applied) {
     // Otro evento escribió entre la lectura y esta escritura: el estado que se
-    // leyó ya no rige. No se reintenta acá; reintentar es decisión del drenaje.
-    return { outcome: "stale", reason: CONFLICT_REASON };
+    // leyó ya no rige. No se reintenta acá; reintentar es decisión del drenaje,
+    // que lo distingue de un evento viejo por `conflict`.
+    return { outcome: "stale", reason: CONFLICT_REASON, conflict: true };
   }
 
   return { outcome: "applied" };

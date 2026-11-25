@@ -1,6 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { applyEventToStore, sweepExpired } from "@/lib/billing/dodo/provision";
+import {
+  applyEventToStore,
+  isWriteConflict,
+  sweepExpired,
+} from "@/lib/billing/dodo/provision";
 import type {
   ObservedSubscription,
   SubscriptionStore,
@@ -313,13 +317,19 @@ describe("applyEventToStore: escritura condicional", () => {
     };
   }
 
-  it("informa stale con el motivo del conflicto y no aplica el estado", async () => {
+  it("informa el conflicto de escritura como conflicto explícito y no aplica el estado", async () => {
     const store = new FakeStore({ user_1: currentState });
     store.writeResult = { applied: false, reason: "conflict" };
 
     const result = await applyEventToStore(activeEvent(), store, NOW);
 
-    expect(result).toEqual({ outcome: "stale", reason: "conflict" });
+    // El conflicto se distingue por la bandera, no por el texto del motivo.
+    expect(result).toEqual({
+      outcome: "stale",
+      reason: "conflict",
+      conflict: true,
+    });
+    expect(isWriteConflict(result)).toBe(true);
     expect(store.writes).toHaveLength(0);
     expect(store.subscriptions.get("user_1")).toEqual(currentState);
   });
@@ -372,6 +382,8 @@ describe("applyEventToStore: sin escritura", () => {
     );
 
     expect(result).toEqual({ outcome: "stale" });
+    // Un evento viejo no es un conflicto: descartarlo es definitivo.
+    expect(isWriteConflict(result)).toBe(false);
     expect(store.writes).toHaveLength(0);
   });
 
@@ -675,8 +687,110 @@ describe("runEvent: escritura condicional sobre lastEventAt", () => {
     await runEvent("evt_1");
 
     expect(db.subscriptionUpserts).toHaveLength(0);
-    expect(lastEventUpdate()?.status).toBe("ignored");
+  });
+
+  it("persiste el conflicto como reintentable: failed con el lease del backoff", async () => {
+    // La fila existe: un `count === 0` es un conflicto, no una creación.
+    db.state.subscription = subscriptionRow();
+    db.state.subscriptionUpdateCount = 0;
+    db.state.row = webhookRow({ status: "processing", attempts: 1 });
+
+    const startedAt = Date.now();
+
+    await runEvent("evt_1");
+
+    expect(db.subscriptionUpserts).toHaveLength(0);
+    expect(lastEventUpdate()?.status).toBe("failed");
     expect(lastEventUpdate()?.lastError).toBe("concurrent_write");
+
+    // Intento 1: primer escalón de la tabla de backoff (60 s). Un `failed` con
+    // el lease en el futuro vuelve a la cola recién cuando vence.
+    const leaseUntil = lastEventUpdate()?.leaseUntil as Date;
+    const delay = leaseUntil.getTime() - startedAt;
+
+    expect(delay).toBeGreaterThanOrEqual(60 * 1000);
+    expect(delay).toBeLessThan(65 * 1000);
+  });
+
+  it("deja ignored un evento genuinamente viejo, sin reintento programado", async () => {
+    // El evento (11:59) es más viejo que el último aplicado (11:59:30):
+    // reintentarlo no cambiaría nada, así que no se programa un reintento.
+    db.state.subscription = subscriptionRow({
+      lastEventAt: new Date("2026-11-22T11:59:30.000Z"),
+    });
+    db.state.subscriptionUpdateCount = 0;
+
+    await runEvent("evt_1");
+
+    expect(db.subscriptionUpdates).toHaveLength(0);
+    expect(lastEventUpdate()?.status).toBe("ignored");
+    expect(lastEventUpdate()?.leaseUntil).toBeNull();
+    expect(lastEventUpdate()?.lastError).toBeNull();
+  });
+
+  it("aplica la escritura cuando el reintento de un conflicto gana", async () => {
+    // Primer intento: pierde la carrera contra otro evento de la misma compra.
+    db.state.subscription = subscriptionRow();
+    db.state.subscriptionUpdateCount = 0;
+
+    await runEvent("evt_1");
+
+    expect(lastEventUpdate()?.status).toBe("failed");
+
+    // Segundo intento con el estado fresco que dejó el ganador: el lease del
+    // backoff venció, la fila vuelve a la cola y ahora la escritura entra.
+    db.eventUpdates.length = 0;
+    db.state.row = webhookRow({ status: "failed", attempts: 2 });
+    db.state.subscription = subscriptionRow({
+      planId: "plan_pro",
+      plan: { name: "pro" },
+      lastEventAt: new Date("2026-11-22T11:58:00.000Z"),
+    });
+    db.state.subscriptionUpdateCount = 1;
+
+    await runEvent("evt_1");
+
+    expect(db.subscriptionUpdates).toHaveLength(2);
+    expect(db.subscriptionUpdates[1].where).toEqual({
+      userId: "user_1",
+      lastEventAt: new Date("2026-11-22T11:58:00.000Z"),
+    });
+    expect(lastEventUpdate()?.status).toBe("done");
+    expect(lastEventUpdate()?.lastError).toBeNull();
+  });
+
+  it("reintenta en el cuarto intento y marca dead el conflicto en el quinto", async () => {
+    db.state.subscription = subscriptionRow();
+    db.state.subscriptionUpdateCount = 0;
+    db.state.row = webhookRow({ status: "processing", attempts: 4 });
+
+    const beforeFourth = Date.now();
+
+    await runEvent("evt_1");
+
+    expect(lastEventUpdate()?.status).toBe("failed");
+    const fourthDelay =
+      (lastEventUpdate()?.leaseUntil as Date).getTime() - beforeFourth;
+
+    expect(fourthDelay).toBeGreaterThanOrEqual(60 * 60 * 1000);
+    expect(fourthDelay).toBeLessThan(60 * 60 * 1000 + 5 * 1000);
+
+    // Intento 5: se agota el techo de intentos. La fila queda `dead` esperando
+    // revisión, con el último escalón del backoff escrito igual.
+    db.eventUpdates.length = 0;
+    db.state.row = webhookRow({ status: "processing", attempts: 5 });
+
+    const beforeFifth = Date.now();
+
+    await runEvent("evt_1");
+
+    expect(lastEventUpdate()?.status).toBe("dead");
+    expect(lastEventUpdate()?.lastError).toBe("concurrent_write");
+    const fifthDelay =
+      (lastEventUpdate()?.leaseUntil as Date).getTime() - beforeFifth;
+
+    expect(fifthDelay).toBeGreaterThanOrEqual(6 * 60 * 60 * 1000);
+    expect(fifthDelay).toBeLessThan(6 * 60 * 60 * 1000 + 5 * 1000);
   });
 
   it("crea la fila cuando el usuario no tenía suscripción", async () => {
