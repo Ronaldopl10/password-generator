@@ -1,0 +1,32 @@
+name: Billing drain
+
+# El cron de Vercel Hobby corre como mucho una vez por día. Este workflow es el
+# reloj del drenaje de la cola de webhooks de Dodo: cada 10 minutos, un POST
+# autenticado. Sin checkout y sin instalar dependencias: cuesta segundos.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+# Dos corridas nunca se pisan; si una se cuelga, la siguiente espera.
+concurrency:
+  group: billing-drain
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  drain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: POST /api/internal/billing/drain
+        env:
+          APP_URL: ${{ secrets.APP_URL }}
+          BILLING_CRON_SECRET: ${{ secrets.BILLING_CRON_SECRET }}
+        # `--fail` devuelve exit != 0 en cualquier no-2xx: el job queda rojo.
+        run: |
+          curl --fail --silent --show-error \
+            -X POST "$APP_URL/api/internal/billing/drain" \
+            -H "Authorization: Bearer $BILLING_CRON_SECRET"

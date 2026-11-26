@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
 };
 
-const UPDATED = "November 19, 2026";
+const UPDATED = "November 25, 2026";
 
 const sections = [
   {
@@ -32,7 +32,7 @@ const sections = [
     paragraphs: [
       "These Terms of Service (\"Terms\") govern your use of IronKey, a web-based password generator and password vault (the \"Service\"). By creating an account or subscribing to a paid plan you agree to these Terms. If you do not agree with them, do not use the Service.",
       "The Service is operated by Ronaldo Pérez Lezama. We are the party that provides the Service, supports it and issues refunds under our Refund Policy.",
-      "Payments are collected by third-party payment providers, which act as merchant of record for the payment transaction: they collect the money, issue the receipt for it and apply their own terms to the payment step. We never receive or store your card number.",
+      "Payments are collected by third-party payment providers, which act as merchant of record for the payment transaction: they collect the money, issue the receipt for it and apply their own terms to the payment step. Payments made from Colombia are handled by Mercado Pago, and international card payments are handled by Dodo Payments. We never receive or store your card number.",
     ],
   },
   {

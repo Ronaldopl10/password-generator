@@ -68,6 +68,8 @@ model Plan {
   displayName String
   maxPasswords Int
   price       Float
+  /// Reservado para el plan anual (ej. "month" | "year"). Sin UI todavía.
+  interval    String?
   createdAt   DateTime @default(now())
 
   subscriptions Subscription[]
@@ -78,6 +80,20 @@ model Subscription {
   userId    String   @unique
   planId    String
   status    String   @default("active")
+  /// Pasarela que originó la suscripción: "mercadopago" | "dodo".
+  provider String?
+  /// Id externo de la suscripción en la pasarela (Dodo: `sub_…`).
+  externalId String? @unique
+  /// Fin del período pago vigente, según el último webhook aplicado.
+  currentPeriodEnd DateTime?
+  /// true cuando el usuario canceló pero mantiene el acceso hasta el fin del período.
+  cancelAtPeriodEnd Boolean @default(false)
+  /// Marca de tiempo del último evento aplicado; sirve para descartar eventos viejos.
+  lastEventAt DateTime?
+  /// Mutex corto del checkout en curso: lo toma la ruta al crear la sesión y lo
+  /// suelta al terminar (o al aplicar el webhook). Es la única barrera contra
+  /// dos sesiones simultáneas para el mismo usuario; el TTL de 60 s es la red.
+  checkoutLockUntil DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -102,6 +118,24 @@ model Password {
 
   userId String
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+/// Cola durable de webhooks de cobros (idempotencia, reintentos y auditoría).
+model BillingWebhookEvent {
+  id          String   @id @default(cuid())
+  provider    String
+  webhookId   String   @unique
+  eventType   String
+  payload     Json
+  /// pending | processing | done | ignored | failed | dead
+  status      String   @default("pending")
+  attempts    Int      @default(0)
+  lastError   String?
+  leaseUntil  DateTime?
+  receivedAt  DateTime @default(now())
+  processedAt DateTime?
+
+  @@index([status, receivedAt])
 }
 
 model PasswordResetToken {

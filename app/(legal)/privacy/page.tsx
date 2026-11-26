@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
 };
 
-const UPDATED = "November 19, 2026";
+const UPDATED = "November 25, 2026";
 
 const sections = [
   {
@@ -91,7 +91,7 @@ const sections = [
       "Hosting and delivery: Vercel, which serves the application.",
       "Database: Neon (PostgreSQL), which stores your account and vault records.",
       "Email delivery: Resend, which sends password reset and billing emails.",
-      "Payments: Mercado Pago, our current payment provider, which acts as merchant of record for the payment transaction: it collects the money, issues the receipt and applies its own terms to the payment step.",
+      "Payments: Mercado Pago, which handles payments in Colombia, and Dodo Payments, which handles international card payments. Each acts as merchant of record for the payment transaction: it collects the money, issues the receipt and applies its own terms to the payment step. They receive the email address of your account (and the display name, when you have set one) plus the billing details you enter at their checkout. Card data is entered on and handled by the payment provider, never by us.",
     ],
     paragraphs: [
       "Each provider receives only what it needs to do its job — for example, the email provider receives the recipient address and the message content, and the payment processor receives the payment data and the customer reference. Some of these providers process data outside your country; where required, they rely on standard contractual clauses for international transfers.",

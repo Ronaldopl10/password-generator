@@ -24,7 +24,7 @@ No es un generador suelto ni una extensión de navegador. Es un producto con cue
 | Datos en cliente | TanStack React Query 5 |
 | Avisos | Sonner |
 | Email | Resend |
-| Pagos | Mercado Pago (COP) + Dodo Payments (USD, pendiente de alta) |
+| Pagos | Mercado Pago (COP) + Dodo Payments (USD, tarjetas internacionales) |
 
 ## Para qué sirve
 
@@ -69,7 +69,8 @@ Los tres planes se siembran en la base (`prisma/seed.ts`) y `/pricing` los lee c
 
 - **Mercado Pago (COP)**: `POST /api/mercadopago/create-preference` crea una *preapproval* recurrente. Los importes en COP están fijos en el código, equivalentes a los precios USD de la tabla.
 - **Webhook**: `POST /api/webhooks/mercadopago` actualiza la `Subscription` cuando recibe un evento `preapproval` con estado `authorized`, usando `external_reference` (userId) y `reason` (nombre del plan).
-- **Dodo Payments (USD)**: solo están los logos en `public/` y un aviso en `/pricing`. El checkout, la suscripción y su webhook están pendientes de que aprueben la cuenta.
+- **Dodo Payments (USD)**: checkout, suscripción y webhook implementados. El webhook verifica la firma, encola el evento y activa el plan; lo pendiente lo recupera un drenaje por GitHub Actions. Se activa desplegando con las claves live (`DODO_ENVIRONMENT=live_mode`). Los catálogos de test y live son distintos: los `pdt_` de uno no existen en el otro.
+- **Cola y verificación**: los webhooks de Dodo se verifican por firma y se procesan a través de una cola durable; lo pendiente lo recupera un drenaje disparado por GitHub Actions, porque el cron de Vercel Hobby corre como mucho una vez por día.
 
 ### Páginas legales
 
@@ -122,7 +123,7 @@ Las capas van de arriba hacia abajo: **UI** (`components/`, `app/`) → **Server
 
 1. El webhook de Mercado Pago **no valida la firma `x-signature`**: la validación está comentada en el código.
 2. `PasswordResetToken` **no tiene migración formal** en `prisma/migrations/`; en una base creada solo con `migrate deploy` esa tabla falta.
-3. El checkout de Dodo Payments no está implementado (botón, suscripción y webhook).
+3. El plan anual no está implementado: la columna `Plan.interval` está reservada y el producto anual de Dodo todavía no existe.
 4. No hay búsqueda ni filtrado del vault, ni expiración de contraseñas (`expiresAt`).
 
 ## Dónde se utiliza
@@ -131,7 +132,7 @@ En el navegador, desde escritorio o móvil, con una cuenta propia. El vault vive
 
 El escenario natural es personal o de equipo pequeño: recuperar credenciales sin depender de la memoria ni del gestor del sistema operativo. Queda fuera de su alcance todo lo que exige instalación o integración con el sistema: no hay app de escritorio ni móvil, no hay extensión del navegador, no hay autofill, no hay sincronización con gestores nativos y no hay segundo factor de autenticación. El servidor es el único punto de acceso.
 
-El cobro está pensado para el mercado colombiano (Mercado Pago en pesos) y el internacional (Dodo Payments en dólares) está preparado pero no activo.
+El cobro está pensado para el mercado colombiano (Mercado Pago en pesos) y el internacional (Dodo Payments en dólares, tarjetas), que se activa al desplegar con las claves live.
 
 ## Por qué existe
 
@@ -173,6 +174,12 @@ Las que el código lee explícitamente:
 | `APP_URL` | URL base para armar el enlace de reset (`NEXT_PUBLIC_APP_URL` es el fallback) |
 | `MP_ACCESS_TOKEN` | Token de la API de Mercado Pago |
 | `MP_BACK_URL` | URL HTTPS de retorno del checkout (Mercado Pago la exige) |
+| `DODO_ENVIRONMENT` | Entorno de Dodo Payments: `test_mode` o `live_mode` |
+| `DODO_PAYMENTS_API_KEY` | API key de Dodo, con prefijo `dodo_test_` o `dodo_live_`. El modo sale del prefijo y el arranque rechaza una clave que no coincida con `DODO_ENVIRONMENT` |
+| `DODO_PAYMENTS_WEBHOOK_KEY` | Secreto de firma del endpoint de webhooks, con prefijo `whsec_` |
+| `DODO_PRODUCT_STARTER` | Id del producto de Dodo para Starter, con prefijo `pdt_` |
+| `DODO_PRODUCT_PRO` | Id del producto de Dodo para Pro+, con prefijo `pdt_`. Los catálogos de test y live son distintos: los ids no se trasladan de uno al otro |
+| `BILLING_CRON_SECRET` | Secreto compartido del endpoint de drenaje, mínimo 16 caracteres. El mismo valor tiene que existir como *repository secret* de GitHub Actions |
 
 ### Comandos
 
