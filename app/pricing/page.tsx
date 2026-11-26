@@ -311,7 +311,7 @@ export default async function PricingPage() {
           <section className="text-center text-sm text-muted-foreground space-y-1">
             <p>
               Paga con Mercado Pago (Colombia). Tarjetas internacionales:
-              Dodo Payments (próximamente).
+              Dodo Payments.
             </p>
             <p>
               <Link href="/" className="text-primary hover:underline">
